@@ -14,6 +14,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { StatusBadge } from "@/components/StatusBadge";
+import { generateSuggestions } from "@/utils/suggestions";
 import {
   COMPONENT_LABELS,
   COMPONENT_ORDER,
@@ -34,6 +35,7 @@ export default function BuildScreen() {
     useBuild();
 
   const compatibility = useMemo(() => checkCompatibility(build), [build]);
+  const suggestions = useMemo(() => generateSuggestions(build, useCase), [build, useCase]);
 
   const topPad = Platform.OS === "web" ? Math.max(insets.top, 67) : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : 0;
@@ -275,6 +277,26 @@ export default function BuildScreen() {
           );
         })}
 
+        {suggestions.length > 0 && compatibility.issues.length === 0 && (
+          <Pressable
+            onPress={() => router.push("/results")}
+            style={[styles.suggTeaser, { backgroundColor: colors.primary + "10", borderColor: colors.primary + "28" }]}
+          >
+            <View style={[styles.suggTeaserIcon, { backgroundColor: colors.primary + "20" }]}>
+              <Feather name="zap" size={16} color={colors.primary} />
+            </View>
+            <View style={styles.suggTeaserText}>
+              <Text style={[styles.suggTeaserTitle, { color: colors.primary }]}>
+                {suggestions.length} optimization suggestion{suggestions.length !== 1 ? "s" : ""} available
+              </Text>
+              <Text style={[styles.suggTeaserDesc, { color: colors.mutedForeground }]}>
+                {suggestions[0].title}
+              </Text>
+            </View>
+            <Feather name="chevron-right" size={16} color={colors.primary} />
+          </Pressable>
+        )}
+
         {compatibility.issues.length > 0 && (
           <>
             <Text
@@ -494,4 +516,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 19,
   },
+  suggTeaser: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderRadius: 14,
+    borderWidth: 1,
+    padding: 12,
+  },
+  suggTeaserIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  suggTeaserText: { flex: 1 },
+  suggTeaserTitle: { fontFamily: "Inter_600SemiBold", fontSize: 13 },
+  suggTeaserDesc: { fontFamily: "Inter_400Regular", fontSize: 12, marginTop: 1 },
 });
