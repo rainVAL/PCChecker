@@ -1,4 +1,5 @@
 export type ComponentType = "cpu" | "gpu" | "ram" | "motherboard" | "storage" | "psu" | "case";
+export type UseCase = "gaming" | "general" | "productivity";
 
 export interface PCComponent {
   id: string;
@@ -8,6 +9,7 @@ export interface PCComponent {
   price: number;
   specs: Record<string, string | number | boolean>;
   performanceScore: number;
+  categories: UseCase[];
 }
 
 export const CPU_LIST: PCComponent[] = [
@@ -19,6 +21,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 549,
     specs: { socket: "LGA1700", tdp: 125, cores: 24, threads: 32, memType: "DDR4,DDR5", maxRamSpeed: 5600, integratedGraphics: true },
     performanceScore: 98,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "cpu-2",
@@ -28,6 +31,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 389,
     specs: { socket: "LGA1700", tdp: 125, cores: 20, threads: 28, memType: "DDR4,DDR5", maxRamSpeed: 5600, integratedGraphics: true },
     performanceScore: 90,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "cpu-3",
@@ -37,6 +41,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 299,
     specs: { socket: "LGA1700", tdp: 125, cores: 14, threads: 20, memType: "DDR4,DDR5", maxRamSpeed: 5600, integratedGraphics: true },
     performanceScore: 80,
+    categories: ["gaming", "general"],
   },
   {
     id: "cpu-4",
@@ -46,6 +51,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 139,
     specs: { socket: "LGA1700", tdp: 60, cores: 4, threads: 8, memType: "DDR4,DDR5", maxRamSpeed: 4800, integratedGraphics: true },
     performanceScore: 55,
+    categories: ["general"],
   },
   {
     id: "cpu-5",
@@ -55,6 +61,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 549,
     specs: { socket: "AM5", tdp: 170, cores: 16, threads: 32, memType: "DDR5", maxRamSpeed: 5200, integratedGraphics: true },
     performanceScore: 99,
+    categories: ["productivity"],
   },
   {
     id: "cpu-6",
@@ -64,6 +71,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 449,
     specs: { socket: "AM5", tdp: 120, cores: 8, threads: 16, memType: "DDR5", maxRamSpeed: 5200, integratedGraphics: true },
     performanceScore: 96,
+    categories: ["gaming"],
   },
   {
     id: "cpu-7",
@@ -73,6 +81,7 @@ export const CPU_LIST: PCComponent[] = [
     price: 229,
     specs: { socket: "AM5", tdp: 105, cores: 6, threads: 12, memType: "DDR5", maxRamSpeed: 5200, integratedGraphics: true },
     performanceScore: 78,
+    categories: ["gaming", "general"],
   },
   {
     id: "cpu-8",
@@ -82,15 +91,27 @@ export const CPU_LIST: PCComponent[] = [
     price: 149,
     specs: { socket: "AM4", tdp: 65, cores: 6, threads: 12, memType: "DDR4", maxRamSpeed: 3200, integratedGraphics: false },
     performanceScore: 72,
+    categories: ["gaming", "general"],
   },
   {
     id: "cpu-9",
     type: "cpu",
-    name: "Ryzen 7 5700X",
+    name: "Ryzen 9 7900X",
     brand: "AMD",
-    price: 189,
-    specs: { socket: "AM4", tdp: 65, cores: 8, threads: 16, memType: "DDR4", maxRamSpeed: 3200, integratedGraphics: false },
-    performanceScore: 76,
+    price: 349,
+    specs: { socket: "AM5", tdp: 170, cores: 12, threads: 24, memType: "DDR5", maxRamSpeed: 5200, integratedGraphics: true },
+    performanceScore: 92,
+    categories: ["productivity", "general"],
+  },
+  {
+    id: "cpu-10",
+    type: "cpu",
+    name: "Core i5-13400",
+    brand: "Intel",
+    price: 199,
+    specs: { socket: "LGA1700", tdp: 65, cores: 10, threads: 16, memType: "DDR4,DDR5", maxRamSpeed: 4800, integratedGraphics: true },
+    performanceScore: 70,
+    categories: ["general"],
   },
 ];
 
@@ -103,6 +124,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 1599,
     specs: { vram: 24, tdp: 450, pcieLanes: 16, pcieGen: 4, length: 336 },
     performanceScore: 100,
+    categories: ["gaming"],
   },
   {
     id: "gpu-2",
@@ -112,6 +134,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 999,
     specs: { vram: 16, tdp: 320, pcieLanes: 16, pcieGen: 4, length: 310 },
     performanceScore: 90,
+    categories: ["gaming"],
   },
   {
     id: "gpu-3",
@@ -121,6 +144,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 799,
     specs: { vram: 16, tdp: 285, pcieLanes: 16, pcieGen: 4, length: 305 },
     performanceScore: 84,
+    categories: ["gaming"],
   },
   {
     id: "gpu-4",
@@ -130,6 +154,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 599,
     specs: { vram: 12, tdp: 220, pcieLanes: 16, pcieGen: 4, length: 285 },
     performanceScore: 78,
+    categories: ["gaming", "general"],
   },
   {
     id: "gpu-5",
@@ -139,6 +164,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 399,
     specs: { vram: 8, tdp: 165, pcieLanes: 8, pcieGen: 4, length: 240 },
     performanceScore: 68,
+    categories: ["gaming", "general"],
   },
   {
     id: "gpu-6",
@@ -148,6 +174,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 299,
     specs: { vram: 8, tdp: 115, pcieLanes: 8, pcieGen: 4, length: 240 },
     performanceScore: 60,
+    categories: ["general"],
   },
   {
     id: "gpu-7",
@@ -157,6 +184,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 949,
     specs: { vram: 24, tdp: 355, pcieLanes: 16, pcieGen: 4, length: 330 },
     performanceScore: 93,
+    categories: ["gaming"],
   },
   {
     id: "gpu-8",
@@ -166,6 +194,7 @@ export const GPU_LIST: PCComponent[] = [
     price: 449,
     specs: { vram: 16, tdp: 263, pcieLanes: 16, pcieGen: 4, length: 267 },
     performanceScore: 74,
+    categories: ["gaming", "general"],
   },
   {
     id: "gpu-9",
@@ -175,6 +204,37 @@ export const GPU_LIST: PCComponent[] = [
     price: 269,
     specs: { vram: 8, tdp: 165, pcieLanes: 8, pcieGen: 4, length: 240 },
     performanceScore: 58,
+    categories: ["general"],
+  },
+  {
+    id: "gpu-10",
+    type: "gpu",
+    name: "RTX A2000 12GB",
+    brand: "NVIDIA",
+    price: 449,
+    specs: { vram: 12, tdp: 70, pcieLanes: 16, pcieGen: 4, length: 170 },
+    performanceScore: 55,
+    categories: ["productivity"],
+  },
+  {
+    id: "gpu-11",
+    type: "gpu",
+    name: "RTX A4000",
+    brand: "NVIDIA",
+    price: 899,
+    specs: { vram: 16, tdp: 140, pcieLanes: 16, pcieGen: 4, length: 240 },
+    performanceScore: 72,
+    categories: ["productivity"],
+  },
+  {
+    id: "gpu-12",
+    type: "gpu",
+    name: "Intel Arc A380",
+    brand: "Intel",
+    price: 149,
+    specs: { vram: 6, tdp: 75, pcieLanes: 8, pcieGen: 4, length: 190 },
+    performanceScore: 38,
+    categories: ["general"],
   },
 ];
 
@@ -187,6 +247,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 129,
     specs: { type: "DDR5", capacity: 32, speed: 6000, modules: 2 },
     performanceScore: 90,
+    categories: ["gaming"],
   },
   {
     id: "ram-2",
@@ -196,6 +257,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 109,
     specs: { type: "DDR5", capacity: 32, speed: 5200, modules: 2 },
     performanceScore: 82,
+    categories: ["gaming", "general"],
   },
   {
     id: "ram-3",
@@ -205,6 +267,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 65,
     specs: { type: "DDR5", capacity: 16, speed: 5200, modules: 2 },
     performanceScore: 78,
+    categories: ["general"],
   },
   {
     id: "ram-4",
@@ -214,6 +277,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 79,
     specs: { type: "DDR4", capacity: 32, speed: 3600, modules: 2 },
     performanceScore: 75,
+    categories: ["gaming", "general"],
   },
   {
     id: "ram-5",
@@ -223,6 +287,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 45,
     specs: { type: "DDR4", capacity: 16, speed: 3200, modules: 2 },
     performanceScore: 65,
+    categories: ["general"],
   },
   {
     id: "ram-6",
@@ -232,6 +297,7 @@ export const RAM_LIST: PCComponent[] = [
     price: 35,
     specs: { type: "DDR4", capacity: 16, speed: 2666, modules: 2 },
     performanceScore: 55,
+    categories: ["general"],
   },
   {
     id: "ram-7",
@@ -241,6 +307,27 @@ export const RAM_LIST: PCComponent[] = [
     price: 249,
     specs: { type: "DDR5", capacity: 64, speed: 6400, modules: 2 },
     performanceScore: 96,
+    categories: ["productivity"],
+  },
+  {
+    id: "ram-8",
+    type: "ram",
+    name: "Vengeance 64GB DDR5-5600",
+    brand: "Corsair",
+    price: 199,
+    specs: { type: "DDR5", capacity: 64, speed: 5600, modules: 2 },
+    performanceScore: 88,
+    categories: ["productivity"],
+  },
+  {
+    id: "ram-9",
+    type: "ram",
+    name: "Ripjaws V 32GB DDR4-3200",
+    brand: "G.Skill",
+    price: 69,
+    specs: { type: "DDR4", capacity: 32, speed: 3200, modules: 2 },
+    performanceScore: 68,
+    categories: ["productivity", "general"],
   },
 ];
 
@@ -253,6 +340,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 699,
     specs: { socket: "LGA1700", chipset: "Z790", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 5, pcieLanes: 16 },
     performanceScore: 99,
+    categories: ["gaming"],
   },
   {
     id: "mb-2",
@@ -262,6 +350,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 259,
     specs: { socket: "LGA1700", chipset: "Z790", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 4, pcieLanes: 16 },
     performanceScore: 85,
+    categories: ["gaming", "general"],
   },
   {
     id: "mb-3",
@@ -271,6 +360,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 149,
     specs: { socket: "LGA1700", chipset: "B760", memType: "DDR5", formFactor: "mATX", maxRam: 64, ramSlots: 4, m2Slots: 2, pcieLanes: 16 },
     performanceScore: 70,
+    categories: ["general"],
   },
   {
     id: "mb-4",
@@ -280,6 +370,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 599,
     specs: { socket: "AM5", chipset: "X670E", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 5, pcieLanes: 16 },
     performanceScore: 98,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "mb-5",
@@ -289,6 +380,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 399,
     specs: { socket: "AM5", chipset: "X670E", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 4, pcieLanes: 16 },
     performanceScore: 92,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "mb-6",
@@ -298,6 +390,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 249,
     specs: { socket: "AM5", chipset: "B650E", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 3, pcieLanes: 16 },
     performanceScore: 80,
+    categories: ["gaming", "general"],
   },
   {
     id: "mb-7",
@@ -307,6 +400,7 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 199,
     specs: { socket: "AM4", chipset: "B550", memType: "DDR4", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 2, pcieLanes: 16 },
     performanceScore: 75,
+    categories: ["gaming", "general"],
   },
   {
     id: "mb-8",
@@ -316,6 +410,27 @@ export const MOTHERBOARD_LIST: PCComponent[] = [
     price: 119,
     specs: { socket: "AM4", chipset: "B450", memType: "DDR4", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 1, pcieLanes: 16 },
     performanceScore: 62,
+    categories: ["general"],
+  },
+  {
+    id: "mb-9",
+    type: "motherboard",
+    name: "WS X670E-ACE",
+    brand: "ASUS",
+    price: 549,
+    specs: { socket: "AM5", chipset: "X670E", memType: "DDR5", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 4, pcieLanes: 16 },
+    performanceScore: 96,
+    categories: ["productivity"],
+  },
+  {
+    id: "mb-10",
+    type: "motherboard",
+    name: "Prime H770-Plus WiFi",
+    brand: "ASUS",
+    price: 199,
+    specs: { socket: "LGA1700", chipset: "H770", memType: "DDR4", formFactor: "ATX", maxRam: 128, ramSlots: 4, m2Slots: 2, pcieLanes: 16 },
+    performanceScore: 68,
+    categories: ["general", "productivity"],
   },
 ];
 
@@ -328,6 +443,7 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 149,
     specs: { capacity: 2000, type: "NVMe", interface: "M.2 PCIe 4.0", readSpeed: 7450, writeSpeed: 6900 },
     performanceScore: 96,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "ssd-2",
@@ -337,6 +453,7 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 89,
     specs: { capacity: 1000, type: "NVMe", interface: "M.2 PCIe 4.0", readSpeed: 7000, writeSpeed: 5100 },
     performanceScore: 90,
+    categories: ["gaming"],
   },
   {
     id: "ssd-3",
@@ -346,6 +463,7 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 179,
     specs: { capacity: 2000, type: "NVMe", interface: "M.2 PCIe 4.0", readSpeed: 7300, writeSpeed: 6900 },
     performanceScore: 94,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "ssd-4",
@@ -355,6 +473,7 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 89,
     specs: { capacity: 1000, type: "NVMe", interface: "M.2 PCIe 4.0", readSpeed: 7300, writeSpeed: 6300 },
     performanceScore: 91,
+    categories: ["gaming"],
   },
   {
     id: "ssd-5",
@@ -364,6 +483,7 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 89,
     specs: { capacity: 1000, type: "SATA SSD", interface: "SATA III", readSpeed: 560, writeSpeed: 530 },
     performanceScore: 65,
+    categories: ["general"],
   },
   {
     id: "ssd-6",
@@ -373,6 +493,27 @@ export const STORAGE_LIST: PCComponent[] = [
     price: 79,
     specs: { capacity: 4000, type: "HDD", interface: "SATA III", readSpeed: 190, writeSpeed: 190 },
     performanceScore: 35,
+    categories: ["general", "productivity"],
+  },
+  {
+    id: "ssd-7",
+    type: "storage",
+    name: "MX500 500GB SATA",
+    brand: "Crucial",
+    price: 45,
+    specs: { capacity: 500, type: "SATA SSD", interface: "SATA III", readSpeed: 560, writeSpeed: 510 },
+    performanceScore: 60,
+    categories: ["general"],
+  },
+  {
+    id: "ssd-8",
+    type: "storage",
+    name: "P5 Plus 2TB NVMe",
+    brand: "Crucial",
+    price: 129,
+    specs: { capacity: 2000, type: "NVMe", interface: "M.2 PCIe 4.0", readSpeed: 6600, writeSpeed: 5000 },
+    performanceScore: 88,
+    categories: ["productivity", "general"],
   },
 ];
 
@@ -385,6 +526,7 @@ export const PSU_LIST: PCComponent[] = [
     price: 199,
     specs: { wattage: 1000, efficiency: "80+ Gold", modular: "Fully" },
     performanceScore: 95,
+    categories: ["gaming"],
   },
   {
     id: "psu-2",
@@ -394,6 +536,7 @@ export const PSU_LIST: PCComponent[] = [
     price: 149,
     specs: { wattage: 850, efficiency: "80+ Gold", modular: "Fully" },
     performanceScore: 90,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "psu-3",
@@ -403,6 +546,7 @@ export const PSU_LIST: PCComponent[] = [
     price: 129,
     specs: { wattage: 750, efficiency: "80+ Gold", modular: "Fully" },
     performanceScore: 88,
+    categories: ["gaming", "general"],
   },
   {
     id: "psu-4",
@@ -412,6 +556,7 @@ export const PSU_LIST: PCComponent[] = [
     price: 119,
     specs: { wattage: 750, efficiency: "80+ Gold", modular: "Fully" },
     performanceScore: 86,
+    categories: ["gaming", "general"],
   },
   {
     id: "psu-5",
@@ -421,6 +566,7 @@ export const PSU_LIST: PCComponent[] = [
     price: 79,
     specs: { wattage: 650, efficiency: "80+ Gold", modular: "Semi" },
     performanceScore: 72,
+    categories: ["general"],
   },
   {
     id: "psu-6",
@@ -430,15 +576,27 @@ export const PSU_LIST: PCComponent[] = [
     price: 59,
     specs: { wattage: 550, efficiency: "80+ Bronze", modular: "No" },
     performanceScore: 58,
+    categories: ["general"],
   },
   {
     id: "psu-7",
     type: "psu",
-    name: "Titanium 1200W 80+ Titanium",
+    name: "Prime TX-1000 1000W 80+ Titanium",
     brand: "Seasonic",
     price: 299,
-    specs: { wattage: 1200, efficiency: "80+ Titanium", modular: "Fully" },
+    specs: { wattage: 1000, efficiency: "80+ Titanium", modular: "Fully" },
     performanceScore: 100,
+    categories: ["productivity"],
+  },
+  {
+    id: "psu-8",
+    type: "psu",
+    name: "Straight Power 12 850W",
+    brand: "be quiet!",
+    price: 169,
+    specs: { wattage: 850, efficiency: "80+ Platinum", modular: "Fully" },
+    performanceScore: 93,
+    categories: ["productivity", "gaming"],
   },
 ];
 
@@ -451,6 +609,7 @@ export const CASE_LIST: PCComponent[] = [
     price: 104,
     specs: { formFactor: "ATX,mATX,mITX", maxGpuLength: 360, maxCpuCoolerHeight: 170, psuShroud: true },
     performanceScore: 88,
+    categories: ["gaming", "general"],
   },
   {
     id: "case-2",
@@ -460,6 +619,7 @@ export const CASE_LIST: PCComponent[] = [
     price: 169,
     specs: { formFactor: "ATX,mATX,mITX", maxGpuLength: 446, maxCpuCoolerHeight: 167, psuShroud: true },
     performanceScore: 95,
+    categories: ["gaming"],
   },
   {
     id: "case-3",
@@ -469,6 +629,7 @@ export const CASE_LIST: PCComponent[] = [
     price: 189,
     specs: { formFactor: "ATX,mATX,mITX", maxGpuLength: 461, maxCpuCoolerHeight: 188, psuShroud: false },
     performanceScore: 96,
+    categories: ["gaming", "productivity"],
   },
   {
     id: "case-4",
@@ -478,6 +639,7 @@ export const CASE_LIST: PCComponent[] = [
     price: 89,
     specs: { formFactor: "ATX,mATX", maxGpuLength: 381, maxCpuCoolerHeight: 165, psuShroud: true },
     performanceScore: 80,
+    categories: ["gaming", "general"],
   },
   {
     id: "case-5",
@@ -487,6 +649,7 @@ export const CASE_LIST: PCComponent[] = [
     price: 129,
     specs: { formFactor: "mATX,mITX", maxGpuLength: 315, maxCpuCoolerHeight: 170, psuShroud: true },
     performanceScore: 82,
+    categories: ["general", "productivity"],
   },
   {
     id: "case-6",
@@ -496,6 +659,27 @@ export const CASE_LIST: PCComponent[] = [
     price: 139,
     specs: { formFactor: "ATX,mATX,mITX", maxGpuLength: 491, maxCpuCoolerHeight: 185, psuShroud: true },
     performanceScore: 92,
+    categories: ["gaming", "productivity"],
+  },
+  {
+    id: "case-7",
+    type: "case",
+    name: "Define R5",
+    brand: "Fractal",
+    price: 109,
+    specs: { formFactor: "ATX,mATX,mITX", maxGpuLength: 440, maxCpuCoolerHeight: 170, psuShroud: true },
+    performanceScore: 78,
+    categories: ["productivity", "general"],
+  },
+  {
+    id: "case-8",
+    type: "case",
+    name: "S340 Elite",
+    brand: "NZXT",
+    price: 79,
+    specs: { formFactor: "ATX,mATX", maxGpuLength: 384, maxCpuCoolerHeight: 160, psuShroud: true },
+    performanceScore: 72,
+    categories: ["general"],
   },
 ];
 
@@ -528,3 +712,24 @@ export const COMPONENT_ORDER: ComponentType[] = [
   "psu",
   "case",
 ];
+
+export const USE_CASE_CONFIG: Record<UseCase, { label: string; icon: string; description: string; color: string }> = {
+  gaming: {
+    label: "Gaming",
+    icon: "zap",
+    description: "High-fps gaming & performance",
+    color: "#ef4444",
+  },
+  general: {
+    label: "General Use",
+    icon: "monitor",
+    description: "Everyday computing & browsing",
+    color: "#3b82f6",
+  },
+  productivity: {
+    label: "Productivity",
+    icon: "briefcase",
+    description: "Creative work & multitasking",
+    color: "#8b5cf6",
+  },
+};

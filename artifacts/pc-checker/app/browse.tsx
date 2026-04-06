@@ -13,7 +13,12 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ComponentIcon } from "@/components/ComponentIcon";
-import { ALL_COMPONENTS, COMPONENT_LABELS, ComponentType } from "@/data/components";
+import {
+  ALL_COMPONENTS,
+  COMPONENT_LABELS,
+  ComponentType,
+  USE_CASE_CONFIG,
+} from "@/data/components";
 import { useColors } from "@/hooks/useColors";
 import { useBuild } from "@/context/BuildContext";
 
@@ -21,23 +26,34 @@ export default function BrowseScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { type } = useLocalSearchParams<{ type: ComponentType }>();
-  const { addComponent, build } = useBuild();
+  const { addComponent, build, useCase } = useBuild();
   const [search, setSearch] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
+  const allForType = useMemo(
+    () => ALL_COMPONENTS.filter((c) => c.type === type),
+    [type]
+  );
+
+  const filteredByCategory = useMemo(() => {
+    if (!useCase || showAll) return allForType;
+    return allForType.filter((c) => c.categories.includes(useCase));
+  }, [allForType, useCase, showAll]);
 
   const components = useMemo(() => {
-    const filtered = ALL_COMPONENTS.filter((c) => c.type === type);
-    if (!search) return filtered;
+    if (!search) return filteredByCategory;
     const q = search.toLowerCase();
-    return filtered.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) ||
-        c.brand.toLowerCase().includes(q)
+    return filteredByCategory.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.brand.toLowerCase().includes(q)
     );
-  }, [type, search]);
+  }, [filteredByCategory, search]);
 
+  const hiddenCount = allForType.length - filteredByCategory.length;
   const currentComponent = build[type as ComponentType];
   const topPad = Platform.OS === "web" ? Math.max(insets.top, 67) : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : 0;
+
+  const useCaseConfig = useCase ? USE_CASE_CONFIG[useCase] : null;
 
   const handleSelect = (component: typeof components[0]) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -55,8 +71,10 @@ export default function BrowseScreen() {
         return `${component.specs["capacity"]}GB ${component.specs["type"]} ${component.specs["speed"]}MHz`;
       case "motherboard":
         return `${component.specs["socket"]} · ${component.specs["chipset"]} · ${component.specs["formFactor"]}`;
-      case "storage":
-        return `${(component.specs["capacity"] as number) >= 1000 ? (component.specs["capacity"] as number) / 1000 + "TB" : component.specs["capacity"] + "GB"} ${component.specs["type"]}`;
+      case "storage": {
+        const cap = component.specs["capacity"] as number;
+        return `${cap >= 1000 ? cap / 1000 + "TB" : cap + "GB"} ${component.specs["type"]}`;
+      }
       case "psu":
         return `${component.specs["wattage"]}W · ${component.specs["efficiency"]} · ${component.specs["modular"]} Modular`;
       case "case":
@@ -74,7 +92,12 @@ export default function BrowseScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.background, borderBottomColor: colors.border }]}>
+      <View
+        style={[
+          styles.header,
+          { paddingTop: topPad + 12, backgroundColor: colors.background, borderBottomColor: colors.border },
+        ]}
+      >
         <Pressable onPress={() => router.back()} style={styles.backBtn} hitSlop={8}>
           <Feather name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
@@ -86,6 +109,37 @@ export default function BrowseScreen() {
         </View>
         <View style={{ width: 38 }} />
       </View>
+
+      {/* Active filter badge */}
+      {useCaseConfig && !showAll && (
+        <View style={[styles.filterBanner, { backgroundColor: useCaseConfig.color + "12", borderColor: useCaseConfig.color + "30" }]}>
+          <View style={[styles.filterDot, { backgroundColor: useCaseConfig.color }]} />
+          <Text style={[styles.filterText, { color: useCaseConfig.color }]}>
+            Filtered for {useCaseConfig.label}
+          </Text>
+          {hiddenCount > 0 && (
+            <Pressable onPress={() => setShowAll(true)} style={styles.showAllBtn}>
+              <Text style={[styles.showAllText, { color: useCaseConfig.color }]}>
+                Show all ({hiddenCount} hidden)
+              </Text>
+            </Pressable>
+          )}
+        </View>
+      )}
+
+      {showAll && (
+        <View style={[styles.filterBanner, { backgroundColor: colors.muted, borderColor: colors.border }]}>
+          <Feather name="list" size={13} color={colors.mutedForeground} />
+          <Text style={[styles.filterText, { color: colors.mutedForeground }]}>
+            Showing all parts
+          </Text>
+          <Pressable onPress={() => setShowAll(false)} style={styles.showAllBtn}>
+            <Text style={[styles.showAllText, { color: colors.primary }]}>
+              Back to {useCaseConfig?.label} filter
+            </Text>
+          </Pressable>
+        </View>
+      )}
 
       <View style={[styles.searchWrap, { borderColor: colors.border, backgroundColor: colors.card }]}>
         <Feather name="search" size={16} color={colors.mutedForeground} />
@@ -127,11 +181,23 @@ export default function BrowseScreen() {
                 <View style={styles.cardLeft}>
                   <Text style={[styles.brand, { color: colors.mutedForeground }]}>{item.brand}</Text>
                   <Text style={[styles.name, { color: colors.foreground }]}>{item.name}</Text>
-                  <Text style={[styles.specs, { color: colors.mutedForeground }]}>{getSpecSummary(item)}</Text>
+                  <Text style={[styles.specs, { color: colors.mutedForeground }]}>
+                    {getSpecSummary(item)}
+                  </Text>
                 </View>
                 <View style={styles.cardRight}>
-                  <View style={[styles.scoreWrap, { backgroundColor: getScoreColor(item.performanceScore) + "20" }]}>
-                    <Text style={[styles.scoreText, { color: getScoreColor(item.performanceScore) }]}>
+                  <View
+                    style={[
+                      styles.scoreWrap,
+                      { backgroundColor: getScoreColor(item.performanceScore) + "20" },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.scoreText,
+                        { color: getScoreColor(item.performanceScore) },
+                      ]}
+                    >
                       {item.performanceScore}
                     </Text>
                   </View>
@@ -150,7 +216,20 @@ export default function BrowseScreen() {
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Feather name="search" size={32} color={colors.mutedForeground} />
-            <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>No components found</Text>
+            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>
+              No parts found
+            </Text>
+            {useCase && !showAll ? (
+              <Pressable onPress={() => setShowAll(true)}>
+                <Text style={[styles.emptyAction, { color: colors.primary }]}>
+                  Show all {COMPONENT_LABELS[type]} parts
+                </Text>
+              </Pressable>
+            ) : (
+              <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
+                Try a different search term
+              </Text>
+            )}
           </View>
         }
       />
@@ -176,11 +255,27 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headerTitle: { fontFamily: "Inter_700Bold", fontSize: 18 },
+  filterBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  filterDot: { width: 7, height: 7, borderRadius: 4 },
+  filterText: { fontFamily: "Inter_500Medium", fontSize: 13, flex: 1 },
+  showAllBtn: { paddingLeft: 4 },
+  showAllText: { fontFamily: "Inter_600SemiBold", fontSize: 12 },
   searchWrap: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
     margin: 16,
+    marginTop: 12,
     borderRadius: 14,
     borderWidth: 1,
     paddingHorizontal: 14,
@@ -193,22 +288,14 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   list: { paddingHorizontal: 16, gap: 10 },
-  card: {
-    borderRadius: 16,
-    borderWidth: 1.5,
-    padding: 16,
-  },
+  card: { borderRadius: 16, borderWidth: 1.5, padding: 16 },
   cardHeader: { flexDirection: "row", gap: 12 },
   cardLeft: { flex: 1 },
   cardRight: { alignItems: "flex-end", gap: 6 },
   brand: { fontFamily: "Inter_500Medium", fontSize: 11, marginBottom: 2 },
   name: { fontFamily: "Inter_600SemiBold", fontSize: 15, marginBottom: 4 },
   specs: { fontFamily: "Inter_400Regular", fontSize: 12, lineHeight: 17 },
-  scoreWrap: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
+  scoreWrap: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
   scoreText: { fontFamily: "Inter_700Bold", fontSize: 14 },
   price: { fontFamily: "Inter_700Bold", fontSize: 16 },
   selectedBadge: {
@@ -222,6 +309,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   selectedText: { fontFamily: "Inter_600SemiBold", fontSize: 11, color: "#fff" },
-  emptyState: { alignItems: "center", padding: 40, gap: 12 },
-  emptyText: { fontFamily: "Inter_500Medium", fontSize: 15 },
+  emptyState: { alignItems: "center", padding: 40, gap: 10 },
+  emptyTitle: { fontFamily: "Inter_700Bold", fontSize: 18 },
+  emptyText: { fontFamily: "Inter_500Medium", fontSize: 14, color: "#888" },
+  emptyAction: { fontFamily: "Inter_600SemiBold", fontSize: 14 },
 });

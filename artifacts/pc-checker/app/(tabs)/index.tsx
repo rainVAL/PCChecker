@@ -14,17 +14,29 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { StatusBadge } from "@/components/StatusBadge";
-import { COMPONENT_LABELS, COMPONENT_ORDER, ComponentType } from "@/data/components";
+import {
+  COMPONENT_LABELS,
+  COMPONENT_ORDER,
+  ComponentType,
+  USE_CASE_CONFIG,
+  UseCase,
+} from "@/data/components";
 import { useColors } from "@/hooks/useColors";
 import { useBuild } from "@/context/BuildContext";
 import { checkCompatibility } from "@/utils/compatibility";
 
+const USE_CASES: UseCase[] = ["gaming", "general", "productivity"];
+
 export default function BuildScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { build, removeComponent, clearBuild, totalPrice, componentCount } = useBuild();
+  const { build, useCase, setUseCase, removeComponent, clearBuild, totalPrice, componentCount } =
+    useBuild();
 
   const compatibility = useMemo(() => checkCompatibility(build), [build]);
+
+  const topPad = Platform.OS === "web" ? Math.max(insets.top, 67) : insets.top;
+  const bottomPad = Platform.OS === "web" ? 34 : 0;
 
   const handleAddComponent = (type: ComponentType) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -46,7 +58,7 @@ export default function BuildScreen() {
   };
 
   const handleClearBuild = () => {
-    Alert.alert("Clear Build", "Remove all components from your build?", [
+    Alert.alert("Clear Build", "Remove all components and reset your use case?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Clear All",
@@ -59,8 +71,10 @@ export default function BuildScreen() {
     ]);
   };
 
-  const topPad = Platform.OS === "web" ? Math.max(insets.top, 67) : insets.top;
-  const bottomPad = Platform.OS === "web" ? 34 : 0;
+  const handleSelectUseCase = (uc: UseCase) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setUseCase(uc);
+  };
 
   const getStatusColor = () => {
     switch (compatibility.status) {
@@ -73,7 +87,12 @@ export default function BuildScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: colors.background, borderBottomColor: colors.border }]}>
+      <View
+        style={[
+          styles.header,
+          { paddingTop: topPad + 16, backgroundColor: colors.background, borderBottomColor: colors.border },
+        ]}
+      >
         <View>
           <Text style={[styles.headerTitle, { color: colors.foreground }]}>My Build</Text>
           <Text style={[styles.headerSub, { color: colors.mutedForeground }]}>
@@ -81,7 +100,7 @@ export default function BuildScreen() {
           </Text>
         </View>
         <View style={styles.headerRight}>
-          {componentCount > 0 && (
+          {(componentCount > 0 || useCase) && (
             <Pressable onPress={handleClearBuild} style={styles.clearBtn}>
               <Feather name="trash-2" size={18} color={colors.mutedForeground} />
             </Pressable>
@@ -101,6 +120,69 @@ export default function BuildScreen() {
         contentContainerStyle={[styles.scrollContent, { paddingBottom: bottomPad + 100 }]}
         showsVerticalScrollIndicator={false}
       >
+        {/* Use Case Selector */}
+        <View style={styles.useCaseSection}>
+          <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>USE CASE</Text>
+          <View style={styles.useCaseRow}>
+            {USE_CASES.map((uc) => {
+              const config = USE_CASE_CONFIG[uc];
+              const isSelected = useCase === uc;
+              return (
+                <Pressable
+                  key={uc}
+                  onPress={() => handleSelectUseCase(uc)}
+                  style={({ pressed }) => [
+                    styles.useCaseCard,
+                    {
+                      backgroundColor: isSelected ? config.color + "18" : colors.card,
+                      borderColor: isSelected ? config.color : colors.border,
+                      borderWidth: isSelected ? 1.5 : 1,
+                      opacity: pressed ? 0.8 : 1,
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.useCaseIconWrap,
+                      { backgroundColor: isSelected ? config.color + "25" : colors.muted },
+                    ]}
+                  >
+                    <Feather
+                      name={config.icon as any}
+                      size={18}
+                      color={isSelected ? config.color : colors.mutedForeground}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      styles.useCaseLabel,
+                      { color: isSelected ? config.color : colors.foreground },
+                    ]}
+                  >
+                    {config.label}
+                  </Text>
+                  <Text
+                    style={[styles.useCaseDesc, { color: colors.mutedForeground }]}
+                    numberOfLines={2}
+                  >
+                    {config.description}
+                  </Text>
+                  {isSelected && (
+                    <View style={[styles.useCaseCheck, { backgroundColor: config.color }]}>
+                      <Feather name="check" size={10} color="#fff" />
+                    </View>
+                  )}
+                </Pressable>
+              );
+            })}
+          </View>
+          {!useCase && (
+            <Text style={[styles.useCaseHint, { color: colors.mutedForeground }]}>
+              Select a use case to filter recommended parts
+            </Text>
+          )}
+        </View>
+
         {componentCount > 0 && (
           <View style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
             <View style={styles.summaryRow}>
@@ -133,7 +215,10 @@ export default function BuildScreen() {
           return (
             <View
               key={type}
-              style={[styles.componentRow, { backgroundColor: colors.card, borderColor: colors.border }]}
+              style={[
+                styles.componentRow,
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
             >
               <View style={[styles.iconWrap, { backgroundColor: colors.accent }]}>
                 <ComponentIcon type={type} size={20} color={colors.primary} />
@@ -143,7 +228,10 @@ export default function BuildScreen() {
                   {COMPONENT_LABELS[type]}
                 </Text>
                 {component ? (
-                  <Text style={[styles.componentName, { color: colors.foreground }]} numberOfLines={1}>
+                  <Text
+                    style={[styles.componentName, { color: colors.foreground }]}
+                    numberOfLines={1}
+                  >
                     {component.name}
                   </Text>
                 ) : (
@@ -171,7 +259,13 @@ export default function BuildScreen() {
               ) : (
                 <Pressable
                   onPress={() => handleAddComponent(type)}
-                  style={[styles.addBtn, { backgroundColor: colors.primary + "18", borderColor: colors.primary + "30" }]}
+                  style={[
+                    styles.addBtn,
+                    {
+                      backgroundColor: colors.primary + "18",
+                      borderColor: colors.primary + "30",
+                    },
+                  ]}
                 >
                   <Feather name="plus" size={14} color={colors.primary} />
                   <Text style={[styles.addBtnText, { color: colors.primary }]}>Add</Text>
@@ -183,7 +277,9 @@ export default function BuildScreen() {
 
         {compatibility.issues.length > 0 && (
           <>
-            <Text style={[styles.sectionLabel, { color: colors.mutedForeground, marginTop: 24 }]}>
+            <Text
+              style={[styles.sectionLabel, { color: colors.mutedForeground, marginTop: 20 }]}
+            >
               ISSUES DETECTED
             </Text>
             {compatibility.issues.slice(0, 3).map((issue, i) => (
@@ -192,19 +288,35 @@ export default function BuildScreen() {
                 style={[
                   styles.issueCard,
                   {
-                    backgroundColor: issue.severity === "error" ? colors.destructive + "10" : colors.warning + "10",
-                    borderColor: issue.severity === "error" ? colors.destructive + "30" : colors.warning + "30",
+                    backgroundColor:
+                      issue.severity === "error"
+                        ? colors.destructive + "10"
+                        : colors.warning + "10",
+                    borderColor:
+                      issue.severity === "error"
+                        ? colors.destructive + "30"
+                        : colors.warning + "30",
                   },
                 ]}
               >
                 <Feather
                   name={issue.severity === "error" ? "x-circle" : "alert-triangle"}
                   size={16}
-                  color={issue.severity === "error" ? colors.destructive : colors.warning}
+                  color={
+                    issue.severity === "error" ? colors.destructive : colors.warning
+                  }
                   style={{ marginTop: 1 }}
                 />
                 <View style={styles.issueContent}>
-                  <Text style={[styles.issueTitle, { color: issue.severity === "error" ? colors.destructive : colors.warning }]}>
+                  <Text
+                    style={[
+                      styles.issueTitle,
+                      {
+                        color:
+                          issue.severity === "error" ? colors.destructive : colors.warning,
+                      },
+                    ]}
+                  >
                     {issue.title}
                   </Text>
                   <Text style={[styles.issueDesc, { color: colors.mutedForeground }]}>
@@ -223,12 +335,15 @@ export default function BuildScreen() {
           </>
         )}
 
-        {componentCount === 0 && (
+        {componentCount === 0 && useCase && (
           <View style={[styles.emptyState, { borderColor: colors.border }]}>
             <Feather name="cpu" size={40} color={colors.mutedForeground} />
-            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>Start Your Build</Text>
+            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>
+              Start adding parts
+            </Text>
             <Text style={[styles.emptyDesc, { color: colors.mutedForeground }]}>
-              Add components above to check compatibility and performance balance
+              Tap "Add" on any component above. Parts are filtered for{" "}
+              {USE_CASE_CONFIG[useCase].label.toLowerCase()} use.
             </Text>
           </View>
         )}
@@ -262,11 +377,46 @@ const styles = StyleSheet.create({
   checkBtnText: { fontFamily: "Inter_600SemiBold", fontSize: 14 },
   scroll: { flex: 1 },
   scrollContent: { padding: 20, gap: 8 },
+  useCaseSection: { gap: 10, marginBottom: 4 },
+  useCaseRow: { flexDirection: "row", gap: 8 },
+  useCaseCard: {
+    flex: 1,
+    borderRadius: 16,
+    padding: 12,
+    gap: 6,
+    position: "relative",
+  },
+  useCaseIconWrap: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 2,
+  },
+  useCaseLabel: { fontFamily: "Inter_700Bold", fontSize: 13 },
+  useCaseDesc: { fontFamily: "Inter_400Regular", fontSize: 11, lineHeight: 15 },
+  useCaseCheck: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  useCaseHint: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    textAlign: "center",
+    fontStyle: "italic",
+  },
   summaryCard: {
     borderRadius: 16,
     borderWidth: 1,
     padding: 16,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   summaryRow: { flexDirection: "row", alignItems: "center" },
   summaryItem: { flex: 1, alignItems: "center", gap: 4 },
@@ -277,7 +427,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 11,
     letterSpacing: 1.2,
-    marginBottom: 4,
+    marginBottom: 2,
     marginTop: 4,
   },
   componentRow: {
@@ -301,11 +451,7 @@ const styles = StyleSheet.create({
   componentEmpty: { fontFamily: "Inter_400Regular", fontSize: 13, fontStyle: "italic" },
   componentActions: { flexDirection: "row", alignItems: "center", gap: 8 },
   componentPrice: { fontFamily: "Inter_600SemiBold", fontSize: 14 },
-  changeBtn: {
-    padding: 6,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
+  changeBtn: { padding: 6, borderRadius: 8, borderWidth: 1 },
   addBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -326,16 +472,26 @@ const styles = StyleSheet.create({
   issueContent: { flex: 1 },
   issueTitle: { fontFamily: "Inter_600SemiBold", fontSize: 13, marginBottom: 2 },
   issueDesc: { fontFamily: "Inter_400Regular", fontSize: 12, lineHeight: 17 },
-  seeAll: { fontFamily: "Inter_500Medium", fontSize: 13, marginTop: 4, textAlign: "center" },
+  seeAll: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    marginTop: 4,
+    textAlign: "center",
+  },
   emptyState: {
     alignItems: "center",
-    padding: 40,
-    marginTop: 20,
+    padding: 36,
+    marginTop: 8,
     borderRadius: 20,
     borderWidth: 1,
     borderStyle: "dashed",
-    gap: 12,
+    gap: 10,
   },
-  emptyTitle: { fontFamily: "Inter_700Bold", fontSize: 20 },
-  emptyDesc: { fontFamily: "Inter_400Regular", fontSize: 14, textAlign: "center", lineHeight: 20 },
+  emptyTitle: { fontFamily: "Inter_700Bold", fontSize: 18 },
+  emptyDesc: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    textAlign: "center",
+    lineHeight: 19,
+  },
 });

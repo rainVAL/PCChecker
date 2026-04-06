@@ -1,10 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { BuildComponents } from "../utils/compatibility";
-import { ComponentType, PCComponent } from "../data/components";
+import { ComponentType, PCComponent, UseCase } from "../data/components";
 
 interface BuildContextValue {
   build: BuildComponents;
+  useCase: UseCase | null;
+  setUseCase: (uc: UseCase) => void;
   addComponent: (component: PCComponent) => void;
   removeComponent: (type: ComponentType) => void;
   clearBuild: () => void;
@@ -14,30 +16,47 @@ interface BuildContextValue {
 
 const BuildContext = createContext<BuildContextValue | null>(null);
 
-const STORAGE_KEY = "pc_build_v1";
+const STORAGE_KEY = "pc_build_v2";
 
 export function BuildProvider({ children }: { children: React.ReactNode }) {
   const [build, setBuild] = useState<BuildComponents>({});
+  const [useCase, setUseCaseState] = useState<UseCase | null>(null);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
       .then((stored) => {
         if (stored) {
-          setBuild(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          setBuild(parsed.build ?? {});
+          setUseCaseState(parsed.useCase ?? null);
         }
       })
       .catch(() => {});
   }, []);
 
-  const persist = useCallback((newBuild: BuildComponents) => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newBuild)).catch(() => {});
+  const persist = useCallback((newBuild: BuildComponents, newUseCase: UseCase | null) => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ build: newBuild, useCase: newUseCase })).catch(() => {});
   }, []);
+
+  const setUseCase = useCallback(
+    (uc: UseCase) => {
+      setUseCaseState(uc);
+      setBuild((prev) => {
+        persist(prev, uc);
+        return prev;
+      });
+    },
+    [persist]
+  );
 
   const addComponent = useCallback(
     (component: PCComponent) => {
       setBuild((prev) => {
         const next = { ...prev, [component.type]: component };
-        persist(next);
+        setUseCaseState((uc) => {
+          persist(next, uc);
+          return uc;
+        });
         return next;
       });
     },
@@ -49,7 +68,10 @@ export function BuildProvider({ children }: { children: React.ReactNode }) {
       setBuild((prev) => {
         const next = { ...prev };
         delete next[type];
-        persist(next);
+        setUseCaseState((uc) => {
+          persist(next, uc);
+          return uc;
+        });
         return next;
       });
     },
@@ -58,6 +80,7 @@ export function BuildProvider({ children }: { children: React.ReactNode }) {
 
   const clearBuild = useCallback(() => {
     setBuild({});
+    setUseCaseState(null);
     AsyncStorage.removeItem(STORAGE_KEY).catch(() => {});
   }, []);
 
@@ -65,7 +88,9 @@ export function BuildProvider({ children }: { children: React.ReactNode }) {
   const componentCount = Object.values(build).filter(Boolean).length;
 
   return (
-    <BuildContext.Provider value={{ build, addComponent, removeComponent, clearBuild, totalPrice, componentCount }}>
+    <BuildContext.Provider
+      value={{ build, useCase, setUseCase, addComponent, removeComponent, clearBuild, totalPrice, componentCount }}
+    >
       {children}
     </BuildContext.Provider>
   );
