@@ -17,6 +17,8 @@ import { useColors } from "@/hooks/useColors";
 import { useBuild } from "@/context/BuildContext";
 import { checkCompatibility } from "@/utils/compatibility";
 import { generateSuggestions, Suggestion } from "@/utils/suggestions";
+import { analyzeBottleneck } from "@/utils/bottleneck";
+import { BottleneckChart } from "@/components/BottleneckChart";
 import { COMPONENT_LABELS, COMPONENT_ORDER, ComponentType, USE_CASE_CONFIG } from "@/data/components";
 
 function SuggestionCard({ suggestion, onSwap }: { suggestion: Suggestion; onSwap?: () => void }) {
@@ -152,6 +154,7 @@ export default function ResultsScreen() {
 
   const compat = useMemo(() => checkCompatibility(build), [build]);
   const suggestions = useMemo(() => generateSuggestions(build, useCase), [build, useCase]);
+  const bottleneck = useMemo(() => analyzeBottleneck(build), [build]);
 
   const topPad = Platform.OS === "web" ? Math.max(insets.top, 67) : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : 0;
@@ -259,6 +262,33 @@ export default function ResultsScreen() {
                 <Text style={[styles.bottleneckText, { color: colors.warning }]}>{compat.bottleneck}</Text>
               </View>
             )}
+          </View>
+        )}
+
+        {/* Bottleneck Analysis */}
+        {bottleneck.components.length > 0 && (
+          <View style={[styles.section, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View style={styles.sectionTitleRow}>
+              <Feather name="activity" size={15} color={bottleneck.primaryBottleneck ? colors.destructive : colors.success} />
+              <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Bottleneck Analysis</Text>
+              <View style={[
+                styles.tierBadge,
+                { backgroundColor: (bottleneck.primaryBottleneck ? colors.destructive : colors.success) + "18" }
+              ]}>
+                <Text style={[styles.tierBadgeText, { color: bottleneck.primaryBottleneck ? colors.destructive : colors.success }]}>
+                  {{entry: "Entry", mid: "Mid-range", high: "High-end", enthusiast: "Enthusiast"}[bottleneck.overallTier]}
+                </Text>
+              </View>
+            </View>
+            <Text style={[styles.bottleneckSummary, { color: colors.mutedForeground }]}>
+              {bottleneck.summary}
+            </Text>
+            <View style={styles.chartWrap}>
+              <BottleneckChart
+                components={bottleneck.components}
+                primaryBottleneck={bottleneck.primaryBottleneck}
+              />
+            </View>
           </View>
         )}
 
@@ -428,7 +458,12 @@ const styles = StyleSheet.create({
   scoreValue: { fontFamily: "Inter_700Bold", fontSize: 24 },
   scoreLabel: { fontFamily: "Inter_500Medium", fontSize: 11 },
   section: { borderRadius: 16, borderWidth: 1, padding: 16, gap: 12 },
-  sectionTitle: { fontFamily: "Inter_700Bold", fontSize: 16 },
+  sectionTitle: { fontFamily: "Inter_700Bold", fontSize: 16, flex: 1 },
+  sectionTitleRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  tierBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
+  tierBadgeText: { fontFamily: "Inter_600SemiBold", fontSize: 11 },
+  bottleneckSummary: { fontFamily: "Inter_400Regular", fontSize: 13, lineHeight: 18, marginTop: -4 },
+  chartWrap: { marginTop: 4 },
   issueSectionHeader: { flexDirection: "row", alignItems: "center", gap: 8 },
   balanceRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   balanceBar: { flex: 1, height: 8, borderRadius: 4, overflow: "hidden" },

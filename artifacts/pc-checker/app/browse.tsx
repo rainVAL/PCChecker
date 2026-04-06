@@ -6,6 +6,7 @@ import {
   FlatList,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -22,17 +23,50 @@ import {
 import { useColors } from "@/hooks/useColors";
 import { useBuild } from "@/context/BuildContext";
 
+type SortKey = "performance" | "price-asc" | "price-desc";
+type PriceTier = "all" | "budget" | "mid" | "high";
+
+const SORT_OPTIONS: { key: SortKey; label: string; icon: string }[] = [
+  { key: "performance", label: "Performance", icon: "zap" },
+  { key: "price-asc", label: "Price ↑", icon: "trending-up" },
+  { key: "price-desc", label: "Price ↓", icon: "trending-down" },
+];
+
+const PRICE_TIERS: { key: PriceTier; label: string; range: string }[] = [
+  { key: "all", label: "All", range: "" },
+  { key: "budget", label: "Budget", range: "< $150" },
+  { key: "mid", label: "Mid", range: "$150–$400" },
+  { key: "high", label: "High-end", range: "> $400" },
+];
+
+function matchesTier(price: number, tier: PriceTier) {
+  if (tier === "all") return true;
+  if (tier === "budget") return price < 150;
+  if (tier === "mid") return price >= 150 && price <= 400;
+  return price > 400;
+}
+
 export default function BrowseScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { type } = useLocalSearchParams<{ type: ComponentType }>();
   const { addComponent, build, useCase } = useBuild();
+
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [sort, setSort] = useState<SortKey>("performance");
+  const [priceTier, setPriceTier] = useState<PriceTier>("all");
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const allForType = useMemo(
     () => ALL_COMPONENTS.filter((c) => c.type === type),
     [type]
+  );
+
+  const brands = useMemo(
+    () => [...new Set(allForType.map((c) => c.brand))].sort(),
+    [allForType]
   );
 
   const filteredByCategory = useMemo(() => {
@@ -41,12 +75,34 @@ export default function BrowseScreen() {
   }, [allForType, useCase, showAll]);
 
   const components = useMemo(() => {
-    if (!search) return filteredByCategory;
-    const q = search.toLowerCase();
-    return filteredByCategory.filter(
-      (c) => c.name.toLowerCase().includes(q) || c.brand.toLowerCase().includes(q)
-    );
-  }, [filteredByCategory, search]);
+    let list = filteredByCategory;
+
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(
+        (c) =>
+          c.name.toLowerCase().includes(q) ||
+          c.brand.toLowerCase().includes(q) ||
+          Object.values(c.specs).some((v) =>
+            String(v).toLowerCase().includes(q)
+          )
+      );
+    }
+
+    if (selectedBrand) {
+      list = list.filter((c) => c.brand === selectedBrand);
+    }
+
+    if (priceTier !== "all") {
+      list = list.filter((c) => matchesTier(c.price, priceTier));
+    }
+
+    return [...list].sort((a, b) => {
+      if (sort === "price-asc") return a.price - b.price;
+      if (sort === "price-desc") return b.price - a.price;
+      return b.performanceScore - a.performanceScore;
+    });
+  }, [filteredByCategory, search, selectedBrand, priceTier, sort]);
 
   const hiddenCount = allForType.length - filteredByCategory.length;
   const currentComponent = build[type as ComponentType];
@@ -55,13 +111,22 @@ export default function BrowseScreen() {
 
   const useCaseConfig = useCase ? USE_CASE_CONFIG[useCase] : null;
 
-  const handleSelect = (component: typeof components[0]) => {
+  const activeFilterCount =
+    (priceTier !== "all" ? 1 : 0) + (selectedBrand ? 1 : 0);
+
+  const handleSelect = (component: (typeof components)[0]) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     addComponent(component);
     router.back();
   };
 
-  const getSpecSummary = (component: typeof components[0]) => {
+  const clearFilters = () => {
+    setPriceTier("all");
+    setSelectedBrand(null);
+    setSearch("");
+  };
+
+  const getSpecSummary = (component: (typeof components)[0]) => {
     switch (component.type) {
       case "cpu":
         return `${component.specs["cores"]} cores · ${component.specs["socket"]} · ${component.specs["memType"]}`;
@@ -92,10 +157,15 @@ export default function BrowseScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Header */}
       <View
         style={[
           styles.header,
-          { paddingTop: topPad + 12, backgroundColor: colors.background, borderBottomColor: colors.border },
+          {
+            paddingTop: topPad + 12,
+            backgroundColor: colors.background,
+            borderBottomColor: colors.border,
+          },
         ]}
       >
         <Pressable onPress={() => router.back()} style={styles.backBtn} hitSlop={8}>
@@ -107,12 +177,184 @@ export default function BrowseScreen() {
             {type ? COMPONENT_LABELS[type] : "Browse"}
           </Text>
         </View>
-        <View style={{ width: 38 }} />
+        <Pressable
+          onPress={() => setShowFilters((v) => !v)}
+          hitSlop={8}
+          style={[
+            styles.filterToggle,
+            {
+              backgroundColor: showFilters || activeFilterCount > 0
+                ? colors.primary + "18"
+                : colors.muted,
+              borderColor: showFilters || activeFilterCount > 0
+                ? colors.primary + "40"
+                : colors.border,
+            },
+          ]}
+        >
+          <Feather
+            name="sliders"
+            size={15}
+            color={showFilters || activeFilterCount > 0 ? colors.primary : colors.mutedForeground}
+          />
+          {activeFilterCount > 0 && (
+            <View style={[styles.filterBadge, { backgroundColor: colors.primary }]}>
+              <Text style={styles.filterBadgeText}>{activeFilterCount}</Text>
+            </View>
+          )}
+        </Pressable>
       </View>
 
-      {/* Active filter badge */}
+      {/* Search bar */}
+      <View style={[styles.searchWrap, { borderColor: colors.border, backgroundColor: colors.card }]}>
+        <Feather name="search" size={16} color={colors.mutedForeground} />
+        <TextInput
+          style={[styles.searchInput, { color: colors.foreground }]}
+          placeholder={`Search ${type ? COMPONENT_LABELS[type].toLowerCase() : "components"}...`}
+          placeholderTextColor={colors.mutedForeground}
+          value={search}
+          onChangeText={setSearch}
+          autoCorrect={false}
+        />
+        {search.length > 0 && (
+          <Pressable onPress={() => setSearch("")} hitSlop={8}>
+            <Feather name="x" size={16} color={colors.mutedForeground} />
+          </Pressable>
+        )}
+      </View>
+
+      {/* Filter panel */}
+      {showFilters && (
+        <View style={[styles.filterPanel, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          {/* Sort */}
+          <View style={styles.filterRow}>
+            <Text style={[styles.filterGroupLabel, { color: colors.mutedForeground }]}>SORT BY</Text>
+            <View style={styles.chipRow}>
+              {SORT_OPTIONS.map((opt) => {
+                const active = sort === opt.key;
+                return (
+                  <Pressable
+                    key={opt.key}
+                    onPress={() => setSort(opt.key)}
+                    style={[
+                      styles.chip,
+                      {
+                        backgroundColor: active ? colors.primary : colors.muted,
+                        borderColor: active ? colors.primary : colors.border,
+                      },
+                    ]}
+                  >
+                    <Feather
+                      name={opt.icon as any}
+                      size={11}
+                      color={active ? "#fff" : colors.mutedForeground}
+                    />
+                    <Text style={[styles.chipText, { color: active ? "#fff" : colors.foreground }]}>
+                      {opt.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* Price tier */}
+          <View style={styles.filterRow}>
+            <Text style={[styles.filterGroupLabel, { color: colors.mutedForeground }]}>PRICE TIER</Text>
+            <View style={styles.chipRow}>
+              {PRICE_TIERS.map((tier) => {
+                const active = priceTier === tier.key;
+                return (
+                  <Pressable
+                    key={tier.key}
+                    onPress={() => setPriceTier(tier.key)}
+                    style={[
+                      styles.chip,
+                      {
+                        backgroundColor: active ? colors.primary : colors.muted,
+                        borderColor: active ? colors.primary : colors.border,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.chipText, { color: active ? "#fff" : colors.foreground }]}>
+                      {tier.label}
+                    </Text>
+                    {tier.range && (
+                      <Text style={[styles.chipSub, { color: active ? "#ffffff99" : colors.mutedForeground }]}>
+                        {tier.range}
+                      </Text>
+                    )}
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* Brand */}
+          {brands.length > 1 && (
+            <View style={styles.filterRow}>
+              <Text style={[styles.filterGroupLabel, { color: colors.mutedForeground }]}>BRAND</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={[styles.chipRow, { flexWrap: "nowrap" }]}>
+                  <Pressable
+                    onPress={() => setSelectedBrand(null)}
+                    style={[
+                      styles.chip,
+                      {
+                        backgroundColor: !selectedBrand ? colors.primary : colors.muted,
+                        borderColor: !selectedBrand ? colors.primary : colors.border,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.chipText, { color: !selectedBrand ? "#fff" : colors.foreground }]}>
+                      All brands
+                    </Text>
+                  </Pressable>
+                  {brands.map((brand) => {
+                    const active = selectedBrand === brand;
+                    return (
+                      <Pressable
+                        key={brand}
+                        onPress={() => setSelectedBrand(active ? null : brand)}
+                        style={[
+                          styles.chip,
+                          {
+                            backgroundColor: active ? colors.primary : colors.muted,
+                            borderColor: active ? colors.primary : colors.border,
+                          },
+                        ]}
+                      >
+                        <Text style={[styles.chipText, { color: active ? "#fff" : colors.foreground }]}>
+                          {brand}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </ScrollView>
+            </View>
+          )}
+
+          {activeFilterCount > 0 && (
+            <Pressable onPress={clearFilters} style={styles.clearBtn}>
+              <Feather name="x-circle" size={13} color={colors.destructive} />
+              <Text style={[styles.clearBtnText, { color: colors.destructive }]}>Clear filters</Text>
+            </Pressable>
+          )}
+        </View>
+      )}
+
+      {/* Use case filter banner */}
       {useCaseConfig && !showAll && (
-        <View style={[styles.filterBanner, { backgroundColor: useCaseConfig.color + "12", borderColor: useCaseConfig.color + "30" }]}>
+        <View
+          style={[
+            styles.useCaseBanner,
+            {
+              backgroundColor: useCaseConfig.color + "12",
+              borderColor: useCaseConfig.color + "30",
+            },
+          ]}
+        >
           <View style={[styles.filterDot, { backgroundColor: useCaseConfig.color }]} />
           <Text style={[styles.filterText, { color: useCaseConfig.color }]}>
             Filtered for {useCaseConfig.label}
@@ -128,11 +370,9 @@ export default function BrowseScreen() {
       )}
 
       {showAll && (
-        <View style={[styles.filterBanner, { backgroundColor: colors.muted, borderColor: colors.border }]}>
+        <View style={[styles.useCaseBanner, { backgroundColor: colors.muted, borderColor: colors.border }]}>
           <Feather name="list" size={13} color={colors.mutedForeground} />
-          <Text style={[styles.filterText, { color: colors.mutedForeground }]}>
-            Showing all parts
-          </Text>
+          <Text style={[styles.filterText, { color: colors.mutedForeground }]}>Showing all parts</Text>
           <Pressable onPress={() => setShowAll(false)} style={styles.showAllBtn}>
             <Text style={[styles.showAllText, { color: colors.primary }]}>
               Back to {useCaseConfig?.label} filter
@@ -141,19 +381,14 @@ export default function BrowseScreen() {
         </View>
       )}
 
-      <View style={[styles.searchWrap, { borderColor: colors.border, backgroundColor: colors.card }]}>
-        <Feather name="search" size={16} color={colors.mutedForeground} />
-        <TextInput
-          style={[styles.searchInput, { color: colors.foreground }]}
-          placeholder="Search components..."
-          placeholderTextColor={colors.mutedForeground}
-          value={search}
-          onChangeText={setSearch}
-          autoCorrect={false}
-        />
-        {search.length > 0 && (
-          <Pressable onPress={() => setSearch("")} hitSlop={8}>
-            <Feather name="x" size={16} color={colors.mutedForeground} />
+      {/* Results count */}
+      <View style={styles.resultsBar}>
+        <Text style={[styles.resultsCount, { color: colors.mutedForeground }]}>
+          {components.length} result{components.length !== 1 ? "s" : ""}
+        </Text>
+        {(search || activeFilterCount > 0) && (
+          <Pressable onPress={clearFilters} hitSlop={8}>
+            <Text style={[styles.resetText, { color: colors.primary }]}>Reset</Text>
           </Pressable>
         )}
       </View>
@@ -192,16 +427,13 @@ export default function BrowseScreen() {
                       { backgroundColor: getScoreColor(item.performanceScore) + "20" },
                     ]}
                   >
-                    <Text
-                      style={[
-                        styles.scoreText,
-                        { color: getScoreColor(item.performanceScore) },
-                      ]}
-                    >
+                    <Text style={[styles.scoreText, { color: getScoreColor(item.performanceScore) }]}>
                       {item.performanceScore}
                     </Text>
                   </View>
-                  <Text style={[styles.price, { color: colors.foreground }]}>${item.price}</Text>
+                  <Text style={[styles.price, { color: colors.foreground }]}>
+                    ${item.price}
+                  </Text>
                 </View>
               </View>
               {isSelected && (
@@ -216,14 +448,16 @@ export default function BrowseScreen() {
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Feather name="search" size={32} color={colors.mutedForeground} />
-            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>
-              No parts found
-            </Text>
+            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>No parts found</Text>
             {useCase && !showAll ? (
               <Pressable onPress={() => setShowAll(true)}>
                 <Text style={[styles.emptyAction, { color: colors.primary }]}>
-                  Show all {COMPONENT_LABELS[type]} parts
+                  Show all {type ? COMPONENT_LABELS[type] : ""} parts
                 </Text>
+              </Pressable>
+            ) : activeFilterCount > 0 ? (
+              <Pressable onPress={clearFilters}>
+                <Text style={[styles.emptyAction, { color: colors.primary }]}>Clear filters</Text>
               </Pressable>
             ) : (
               <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
@@ -255,7 +489,67 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headerTitle: { fontFamily: "Inter_700Bold", fontSize: 18 },
-  filterBanner: {
+  filterToggle: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  filterBadge: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  filterBadgeText: { fontFamily: "Inter_700Bold", fontSize: 10, color: "#fff" },
+  searchWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    margin: 16,
+    marginBottom: 0,
+    borderRadius: 14,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+  },
+  searchInput: {
+    flex: 1,
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    padding: 0,
+  },
+  filterPanel: {
+    margin: 16,
+    marginBottom: 0,
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 14,
+    gap: 12,
+  },
+  filterRow: { gap: 8 },
+  filterGroupLabel: { fontFamily: "Inter_600SemiBold", fontSize: 10, letterSpacing: 0.6 },
+  chipRow: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  chipText: { fontFamily: "Inter_600SemiBold", fontSize: 12 },
+  chipSub: { fontFamily: "Inter_400Regular", fontSize: 10 },
+  clearBtn: { flexDirection: "row", alignItems: "center", gap: 6, alignSelf: "flex-start" },
+  clearBtnText: { fontFamily: "Inter_600SemiBold", fontSize: 12 },
+  useCaseBanner: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -270,24 +564,17 @@ const styles = StyleSheet.create({
   filterText: { fontFamily: "Inter_500Medium", fontSize: 13, flex: 1 },
   showAllBtn: { paddingLeft: 4 },
   showAllText: { fontFamily: "Inter_600SemiBold", fontSize: 12 },
-  searchWrap: {
+  resultsBar: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    margin: 16,
-    marginTop: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 11,
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 4,
   },
-  searchInput: {
-    flex: 1,
-    fontFamily: "Inter_400Regular",
-    fontSize: 15,
-    padding: 0,
-  },
-  list: { paddingHorizontal: 16, gap: 10 },
+  resultsCount: { fontFamily: "Inter_400Regular", fontSize: 12 },
+  resetText: { fontFamily: "Inter_600SemiBold", fontSize: 12 },
+  list: { paddingHorizontal: 16, paddingTop: 4, gap: 10 },
   card: { borderRadius: 16, borderWidth: 1.5, padding: 16 },
   cardHeader: { flexDirection: "row", gap: 12 },
   cardLeft: { flex: 1 },
