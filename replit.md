@@ -16,6 +16,10 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+- **PC Compatibility Checker** (`artifacts/pc-checker`) — **Native Android Java app** (not Expo). Full rewrite in Java targeting Android SDK 34. Must be built and run with Android Studio. Source: `app/src/main/java/com/pcchecker/`. Screens: MainActivity, BrowseActivity, ResultsActivity. Logic: CompatibilityUtils, BottleneckUtils, SuggestionUtils. Data: ComponentDatabase (60+ components).
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
