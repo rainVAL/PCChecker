@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "pluSqpRitrVI-9jXgMCXy"
+uri = "file://artifacts/pc-checker/assets/images/icon.png"
+type = "image"
+title = "generated_image"
