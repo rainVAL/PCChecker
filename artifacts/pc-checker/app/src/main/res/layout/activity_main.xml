@@ -20,51 +20,6 @@
             android:textColor="#1A237E"
             android:layout_marginBottom="12dp" />
 
-        <!-- Use Case Selector -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Intended Use"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp"/>
-                <RadioGroup
-                    android:id="@+id/radio_use_case"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton android:id="@+id/rb_gaming"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gaming"
-                        android:layout_weight="1"/>
-                    <RadioButton android:id="@+id/rb_productivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Productivity"
-                        android:layout_weight="1"/>
-                    <RadioButton android:id="@+id/rb_general"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="General"
-                        android:layout_weight="1"/>
-                </RadioGroup>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
         <!-- Components -->
         <TextView
             android:layout_width="wrap_content"
@@ -269,7 +224,7 @@
                     android:layout_marginBottom="6dp"/>
                 <TextView android:id="@+id/tv_total_price"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Total: $0.00" android:textSize="15sp" android:textColor="#333"/>
+                    android:text="Total: ₱0.00" android:textSize="15sp" android:textColor="#333"/>
                 <TextView android:id="@+id/tv_power_draw"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="Est. Power: 0W" android:textSize="15sp" android:textColor="#333"

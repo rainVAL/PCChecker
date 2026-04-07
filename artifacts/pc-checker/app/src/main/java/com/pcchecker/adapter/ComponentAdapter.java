@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pcchecker.R;
 import com.pcchecker.model.PCComponent;
+import com.pcchecker.utils.CurrencyUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -73,7 +74,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             tvName.setText(c.getName());
             tvBrand.setText(c.getBrand());
             tvSpecs.setText(c.getSpecSummary());
-            tvPrice.setText(String.format(Locale.US, "$%.2f", c.getPrice()));
+            tvPrice.setText(CurrencyUtils.formatPHP(c.getPrice()));
             tvScore.setText("Score: " + c.getPerformanceScore());
             tvTier.setText(tierLabel(c.getPriceTier()));
 

@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.pcchecker.model.CompatibilityResult;
 import com.pcchecker.model.PCComponent;
 import com.pcchecker.utils.CompatibilityUtils;
-
-import java.util.Locale;
+import com.pcchecker.utils.CurrencyUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     // Summary
     private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus;
     private Button btnViewResults, btnClearBuild;
-    private RadioGroup radioUseCase;
-    private RadioButton rbGaming, rbProductivity, rbGeneral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buildManager = BuildManager.getInstance();
 
         initViews();
-        setupUseCaseSelector();
+        setupActions();
         setupSlotButtons();
         updateUI();
     }
@@ -81,22 +75,9 @@ public class MainActivity extends AppCompatActivity {
         tvCompatStatus = findViewById(R.id.tv_compat_status);
         btnViewResults = findViewById(R.id.btn_view_results);
         btnClearBuild = findViewById(R.id.btn_clear_build);
-        radioUseCase = findViewById(R.id.radio_use_case);
-        rbGaming = findViewById(R.id.rb_gaming);
-        rbProductivity = findViewById(R.id.rb_productivity);
-        rbGeneral = findViewById(R.id.rb_general);
     }
 
-    private void setupUseCaseSelector() {
-        radioUseCase.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_gaming) buildManager.setUseCase(PCComponent.UseCase.GAMING);
-            else if (checkedId == R.id.rb_productivity) buildManager.setUseCase(PCComponent.UseCase.PRODUCTIVITY);
-            else buildManager.setUseCase(PCComponent.UseCase.GENERAL);
-        });
-
-        // Set default
-        rbGeneral.setChecked(true);
-
+    private void setupActions() {
         btnViewResults.setOnClickListener(v -> {
             if (buildManager.getComponentCount() == 0) {
                 Toast.makeText(this, "Add some components first!", Toast.LENGTH_SHORT).show();
@@ -145,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         updateSlot(PCComponent.Category.CASE, tvCase, btnAddCase, btnRemCase);
 
         double price = buildManager.getTotalPrice();
-        tvTotalPrice.setText(String.format(Locale.US, "Total: $%.2f", price));
+        tvTotalPrice.setText("Total: " + CurrencyUtils.formatPHP(price));
 
         int power = CompatibilityUtils.estimatePowerDraw(buildManager.getBuild());
         tvPowerDraw.setText("Est. Power: " + power + "W");
@@ -153,11 +134,11 @@ public class MainActivity extends AppCompatActivity {
         if (buildManager.getComponentCount() > 0) {
             CompatibilityResult result = CompatibilityUtils.check(buildManager.getBuild());
             tvCompatStatus.setText(result.getStatusSummary());
-            tvCompatStatus.setTextColor(getColor(
-                    result.isCompatible() ? android.R.color.holo_green_dark : android.R.color.holo_red_dark));
+            tvCompatStatus.setTextColor(getResources().getColor(
+                    result.isCompatible() ? android.R.color.holo_green_dark : android.R.color.holo_red_dark, getTheme()));
         } else {
             tvCompatStatus.setText("No components added yet.");
-            tvCompatStatus.setTextColor(getColor(android.R.color.darker_gray));
+            tvCompatStatus.setTextColor(getResources().getColor(android.R.color.darker_gray, getTheme()));
         }
     }
 
@@ -165,12 +146,12 @@ public class MainActivity extends AppCompatActivity {
         PCComponent c = buildManager.getComponent(category);
         if (c != null) {
             tv.setText(c.getName() + "\n" + c.getSpecSummary());
-            tv.setTextColor(getColor(android.R.color.black));
+            tv.setTextColor(getResources().getColor(android.R.color.black, getTheme()));
             addBtn.setText("Swap");
             remBtn.setVisibility(View.VISIBLE);
         } else {
             tv.setText("Not selected");
-            tv.setTextColor(getColor(android.R.color.darker_gray));
+            tv.setTextColor(getResources().getColor(android.R.color.darker_gray, getTheme()));
             addBtn.setText("Add");
             remBtn.setVisibility(View.GONE);
         }

@@ -9,7 +9,6 @@ public class BuildManager {
 
     private static BuildManager instance;
     private Map<PCComponent.Category, PCComponent> build = new EnumMap<>(PCComponent.Category.class);
-    private PCComponent.UseCase useCase = PCComponent.UseCase.GENERAL;
     private PCComponent.Category pendingSlot = null;
 
     private BuildManager() {}
@@ -36,9 +35,6 @@ public class BuildManager {
     public PCComponent getComponent(PCComponent.Category category) {
         return build.get(category);
     }
-
-    public PCComponent.UseCase getUseCase() { return useCase; }
-    public void setUseCase(PCComponent.UseCase useCase) { this.useCase = useCase; }
 
     public PCComponent.Category getPendingSlot() { return pendingSlot; }
     public void setPendingSlot(PCComponent.Category pendingSlot) { this.pendingSlot = pendingSlot; }

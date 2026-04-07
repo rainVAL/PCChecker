@@ -8,8 +8,7 @@ import java.util.Map;
 
 public class SuggestionUtils {
 
-    public static List<String> getSuggestions(Map<PCComponent.Category, PCComponent> build,
-                                               PCComponent.UseCase useCase) {
+    public static List<String> getSuggestions(Map<PCComponent.Category, PCComponent> build) {
         List<String> suggestions = new ArrayList<>();
 
         PCComponent cpu = build.get(PCComponent.Category.CPU);
@@ -30,32 +29,6 @@ public class SuggestionUtils {
         // RAM upgrade suggestion
         if (ram != null && ram.getRamCapacityGb() < 16) {
             suggestions.add("Upgrade to at least 16GB RAM for a better experience.");
-        }
-
-        // Gaming-specific
-        if (useCase == PCComponent.UseCase.GAMING) {
-            if (gpu != null && gpu.getPerformanceScore() < 55) {
-                suggestions.add("For gaming, consider a higher-tier GPU (RTX 4060 or above).");
-            }
-            if (storage != null && storage.getStorageType().equals("HDD")) {
-                suggestions.add("Upgrade to an NVMe SSD for significantly faster game load times.");
-            }
-            if (ram != null && ram.getRamSpeedMhz() < 3200) {
-                suggestions.add("For gaming, use DDR4-3200 or faster RAM.");
-            }
-        }
-
-        // Productivity-specific
-        if (useCase == PCComponent.UseCase.PRODUCTIVITY) {
-            if (cpu != null && cpu.getPerformanceScore() < 60) {
-                suggestions.add("For productivity workloads, consider a higher-core-count CPU.");
-            }
-            if (ram != null && ram.getRamCapacityGb() < 32) {
-                suggestions.add("32GB or more RAM is recommended for heavy productivity workloads.");
-            }
-            if (storage != null && storage.getStorageCapacityGb() < 1000) {
-                suggestions.add("Consider more storage capacity for large project files.");
-            }
         }
 
         // Power headroom

@@ -63,7 +63,7 @@
                     android:id="@+id/tv_component_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$0.00"
+                    android:text="₱0.00"
                     android:textStyle="bold"
                     android:textSize="15sp"
                     android:textColor="#1A237E"/>

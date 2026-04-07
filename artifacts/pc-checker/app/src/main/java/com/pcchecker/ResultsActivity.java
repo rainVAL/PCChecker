@@ -49,8 +49,7 @@ public class ResultsActivity extends AppCompatActivity {
     private void loadResults() {
         CompatibilityResult result = CompatibilityUtils.check(buildManager.getBuild());
         BottleneckUtils.BottleneckReport bottleneck = BottleneckUtils.analyze(buildManager.getBuild());
-        List<String> suggestions = SuggestionUtils.getSuggestions(
-                buildManager.getBuild(), buildManager.getUseCase());
+        List<String> suggestions = SuggestionUtils.getSuggestions(buildManager.getBuild());
 
         // Header
         if (result.isCompatible()) {
