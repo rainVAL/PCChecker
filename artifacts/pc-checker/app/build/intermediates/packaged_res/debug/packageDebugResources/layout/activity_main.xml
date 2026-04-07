@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PC Compatibility Checker"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#1A237E"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Components -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Components"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- CPU Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="CPU" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_cpu"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_cpu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_cpu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- GPU Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="GPU" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_gpu"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_gpu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_gpu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- RAM Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="RAM" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_ram"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_ram"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_ram"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Motherboard Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Motherboard" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_mb"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_mb"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_mb"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Storage Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Storage" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_storage"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_storage"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_storage"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- PSU Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Power Supply" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_psu"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_psu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_psu"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Case Slot -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="12dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Case" android:textStyle="bold" android:textColor="#424242"/>
+            <TextView android:id="@+id/tv_case"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Not selected" android:textColor="#9E9E9E"
+                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button android:id="@+id/btn_add_case"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Add" android:textSize="13sp"
+                    android:backgroundTint="#1A237E"
+                    android:layout_marginEnd="8dp"/>
+                <Button android:id="@+id/btn_rem_case"
+                    android:layout_width="wrap_content" android:layout_height="36dp"
+                    android:text="Remove" android:textSize="13sp"
+                    android:backgroundTint="#C62828"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Build Summary -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="3dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Build Summary" android:textStyle="bold"
+                    android:textSize="16sp" android:textColor="#1A237E"
+                    android:layout_marginBottom="6dp"/>
+                <TextView android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Total: ₱0.00" android:textSize="15sp" android:textColor="#333"/>
+                <TextView android:id="@+id/tv_power_draw"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Est. Power: 0W" android:textSize="15sp" android:textColor="#333"
+                    android:layout_marginTop="4dp"/>
+                <TextView android:id="@+id/tv_compat_status"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="No components added yet."
+                    android:textSize="14sp" android:textColor="#9E9E9E"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Actions -->
+        <Button android:id="@+id/btn_view_results"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="View Compatibility Report"
+            android:textSize="15sp"
+            android:backgroundTint="#1A237E"
+            android:layout_marginBottom="8dp"/>
+
+        <Button android:id="@+id/btn_clear_build"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="Clear Build"
+            android:textSize="15sp"
+            android:backgroundTint="#B71C1C"/>
+
+    </LinearLayout>
+</ScrollView>
