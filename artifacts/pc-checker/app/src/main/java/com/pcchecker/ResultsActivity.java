@@ -2,11 +2,13 @@ package com.pcchecker;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.pcchecker.model.CompatibilityResult;
@@ -33,6 +35,11 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
         buildManager = BuildManager.getInstance();
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
         tvCompatHeader = findViewById(R.id.tv_compat_header);
         tvBalanceLabel = findViewById(R.id.tv_balance_label);
         pbBalance = findViewById(R.id.pb_balance);
@@ -44,6 +51,15 @@ public class ResultsActivity extends AppCompatActivity {
         pbBottleneck = findViewById(R.id.pb_bottleneck);
 
         loadResults();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadResults() {
