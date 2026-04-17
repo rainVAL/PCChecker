@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@android:drawable/sym_def_app_icon"
@@ -27,6 +29,11 @@
             android:name=".ResultsActivity"
             android:exported="false"
             android:label="Compatibility Report" />
+
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false"
+            android:label="Component Details" />
 
     </application>
 

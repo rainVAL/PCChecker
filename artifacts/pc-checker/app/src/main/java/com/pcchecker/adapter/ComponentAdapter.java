@@ -1,6 +1,6 @@
 package com.pcchecker.adapter;
 
-import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pcchecker.DetailActivity;
 import com.pcchecker.R;
 import com.pcchecker.model.PCComponent;
 
 import java.util.List;
-import java.util.Locale;
 
 public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.ViewHolder> {
 
@@ -55,7 +55,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     public int getItemCount() { return items.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvBrand, tvSpecs, tvPrice, tvScore, tvTier;
+        private TextView tvName, tvBrand, tvSpecs, tvPrice, tvScore, tvTier, tvDescription;
         private Button btnSelect;
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,6 +66,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             tvPrice = itemView.findViewById(R.id.tv_component_price);
             tvScore = itemView.findViewById(R.id.tv_component_score);
             tvTier = itemView.findViewById(R.id.tv_component_tier);
+            tvDescription = itemView.findViewById(R.id.tv_component_description);
             btnSelect = itemView.findViewById(R.id.btn_select_component);
         }
 
@@ -73,15 +74,23 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
             tvName.setText(c.getName());
             tvBrand.setText(c.getBrand());
             tvSpecs.setText(c.getSpecSummary());
-            tvPrice.setText(String.format(Locale.US, "$%.2f", c.getPrice()));
+            tvPrice.setText(c.getPriceRange());
             tvScore.setText("Score: " + c.getPerformanceScore());
             tvTier.setText(tierLabel(c.getPriceTier()));
+            tvDescription.setText(c.getDescription());
 
             boolean isSelected = c.getId().equals(selectedId);
             btnSelect.setText(isSelected ? "Selected" : "Select");
             btnSelect.setEnabled(!isSelected);
 
             btnSelect.setOnClickListener(v -> listener.onSelect(c));
+
+            // Make the whole card clickable to view details
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                intent.putExtra("component", c);
+                v.getContext().startActivity(intent);
+            });
         }
 
         private String tierLabel(PCComponent.PriceTier tier) {

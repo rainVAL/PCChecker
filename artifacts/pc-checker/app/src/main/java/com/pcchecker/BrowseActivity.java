@@ -139,10 +139,10 @@ public class BrowseActivity extends AppCompatActivity {
                 result.sort((a, b) -> b.getPerformanceScore() - a.getPerformanceScore());
                 break;
             case "Price: Low to High":
-                result.sort(Comparator.comparingDouble(PCComponent::getPrice));
+                result.sort(Comparator.comparingDouble(PCComponent::getPricePhp));
                 break;
             case "Price: High to Low":
-                result.sort((a, b) -> Double.compare(b.getPrice(), a.getPrice()));
+                result.sort((a, b) -> Double.compare(b.getPricePhp(), a.getPricePhp()));
                 break;
         }
 

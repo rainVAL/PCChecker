@@ -45,7 +45,7 @@ public class BuildManager {
 
     public double getTotalPrice() {
         double total = 0;
-        for (PCComponent c : build.values()) total += c.getPrice();
+        for (PCComponent c : build.values()) total += c.getPricePhp();
         return total;
     }
 

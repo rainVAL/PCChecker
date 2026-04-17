@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.pcchecker.model.CompatibilityResult;
 import com.pcchecker.model.PCComponent;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus;
     private Button btnViewResults, btnClearBuild;
     private RadioGroup radioUseCase;
-    private RadioButton rbGaming, rbProductivity, rbGeneral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +80,6 @@ public class MainActivity extends AppCompatActivity {
         btnViewResults = findViewById(R.id.btn_view_results);
         btnClearBuild = findViewById(R.id.btn_clear_build);
         radioUseCase = findViewById(R.id.radio_use_case);
-        rbGaming = findViewById(R.id.rb_gaming);
-        rbProductivity = findViewById(R.id.rb_productivity);
-        rbGeneral = findViewById(R.id.rb_general);
     }
 
     private void setupUseCaseSelector() {
@@ -95,7 +90,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Set default
-        rbGeneral.setChecked(true);
+        RadioButton rbGeneral = findViewById(R.id.rb_general);
+        if (rbGeneral != null) {
+            rbGeneral.setChecked(true);
+        }
 
         btnViewResults.setOnClickListener(v -> {
             if (buildManager.getComponentCount() == 0) {
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         updateSlot(PCComponent.Category.CASE, tvCase, btnAddCase, btnRemCase);
 
         double price = buildManager.getTotalPrice();
-        tvTotalPrice.setText(String.format(Locale.US, "Total: $%.2f", price));
+        tvTotalPrice.setText(String.format(Locale.US, "Total: ₱%,.0f", price));
 
         int power = CompatibilityUtils.estimatePowerDraw(buildManager.getBuild());
         tvPowerDraw.setText("Est. Power: " + power + "W");
@@ -164,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateSlot(PCComponent.Category category, TextView tv, Button addBtn, Button remBtn) {
         PCComponent c = buildManager.getComponent(category);
         if (c != null) {
-            tv.setText(c.getName() + "\n" + c.getSpecSummary());
+            tv.setText(c.getName() + "\n" + c.getPriceRange());
             tv.setTextColor(getColor(android.R.color.black));
             addBtn.setText("Swap");
             remBtn.setVisibility(View.VISIBLE);

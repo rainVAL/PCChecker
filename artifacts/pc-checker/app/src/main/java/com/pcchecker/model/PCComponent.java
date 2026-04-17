@@ -1,6 +1,7 @@
 package com.pcchecker.model;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public class PCComponent implements Serializable {
 
@@ -20,10 +21,12 @@ public class PCComponent implements Serializable {
     private String name;
     private String brand;
     private Category category;
-    private double price;
+    private double pricePhp;
     private int performanceScore;
     private UseCase recommendedUseCase;
     private PriceTier priceTier;
+    private String description;
+    private String imageUrl; // Added imageUrl field
 
     // CPU / Motherboard
     private String socket;
@@ -65,8 +68,14 @@ public class PCComponent implements Serializable {
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public double getPricePhp() { return pricePhp; }
+    public void setPricePhp(double pricePhp) { this.pricePhp = pricePhp; }
+
+    public String getPriceRange() {
+        double min = Math.floor(pricePhp / 1000) * 1000;
+        double max = min + 5000;
+        return String.format(Locale.US, "₱%,.0f - ₱%,.0f", min, max);
+    }
 
     public int getPerformanceScore() { return performanceScore; }
     public void setPerformanceScore(int performanceScore) { this.performanceScore = performanceScore; }
@@ -76,6 +85,12 @@ public class PCComponent implements Serializable {
 
     public PriceTier getPriceTier() { return priceTier; }
     public void setPriceTier(PriceTier priceTier) { this.priceTier = priceTier; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getSocket() { return socket; }
     public void setSocket(String socket) { this.socket = socket; }
