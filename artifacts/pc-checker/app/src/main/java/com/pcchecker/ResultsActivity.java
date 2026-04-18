@@ -4,13 +4,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.pcchecker.model.CompatibilityResult;
-import com.pcchecker.model.PCComponent;
 import com.pcchecker.utils.BottleneckUtils;
 import com.pcchecker.utils.CompatibilityUtils;
 import com.pcchecker.utils.SuggestionUtils;
@@ -22,10 +21,10 @@ public class ResultsActivity extends AppCompatActivity {
     private BuildManager buildManager;
 
     private TextView tvCompatHeader, tvBalanceLabel;
-    private ProgressBar pbBalance;
-    private LinearLayout llErrors, llWarnings, llSuggestions;
+    private LinearProgressIndicator pbBalance;
+    private LinearLayout llErrors, llWarnings, llSuggestions, llStatusHeader;
     private TextView tvBottleneck, tvBottleneckDesc;
-    private ProgressBar pbBottleneck;
+    private LinearProgressIndicator pbBottleneck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class ResultsActivity extends AppCompatActivity {
         llErrors = findViewById(R.id.ll_errors);
         llWarnings = findViewById(R.id.ll_warnings);
         llSuggestions = findViewById(R.id.ll_suggestions);
+        llStatusHeader = findViewById(R.id.ll_status_header);
         tvBottleneck = findViewById(R.id.tv_bottleneck);
         tvBottleneckDesc = findViewById(R.id.tv_bottleneck_desc);
         pbBottleneck = findViewById(R.id.pb_bottleneck);
@@ -55,45 +55,37 @@ public class ResultsActivity extends AppCompatActivity {
         // Header
         if (result.isCompatible()) {
             tvCompatHeader.setText("Build is Compatible!");
-            tvCompatHeader.setTextColor(Color.parseColor("#2E7D32"));
+            llStatusHeader.setBackgroundColor(getResources().getColor(R.color.success, getTheme()));
         } else {
-            tvCompatHeader.setText(result.getErrors().size() + " Compatibility Error(s) Found");
-            tvCompatHeader.setTextColor(Color.parseColor("#C62828"));
+            tvCompatHeader.setText(result.getErrors().size() + " Compatibility Error(s)");
+            llStatusHeader.setBackgroundColor(getResources().getColor(R.color.error, getTheme()));
         }
 
         // Balance
         int balance = result.getPerformanceBalance();
-        tvBalanceLabel.setText("Performance Balance: " + balance + "%");
+        tvBalanceLabel.setText("Overall Sync: " + balance + "%");
         pbBalance.setProgress(balance);
 
         // Errors
         llErrors.removeAllViews();
-        if (result.getErrors().isEmpty()) {
-            addLabel(llErrors, "No errors — good to go!", Color.parseColor("#2E7D32"));
-        } else {
-            for (String err : result.getErrors()) {
-                addLabel(llErrors, "✗ " + err, Color.parseColor("#C62828"));
-            }
+        for (String err : result.getErrors()) {
+            addIssueLabel(llErrors, err, getResources().getColor(R.color.error, getTheme()), 
+                    getResources().getColor(R.color.error_light, getTheme()));
         }
 
         // Warnings
         llWarnings.removeAllViews();
-        if (result.getWarnings().isEmpty()) {
-            addLabel(llWarnings, "No warnings.", Color.parseColor("#757575"));
-        } else {
-            for (String warn : result.getWarnings()) {
-                addLabel(llWarnings, "⚠ " + warn, Color.parseColor("#E65100"));
-            }
+        for (String warn : result.getWarnings()) {
+            addIssueLabel(llWarnings, warn, getResources().getColor(R.color.warning, getTheme()), 
+                    getResources().getColor(R.color.warning_light, getTheme()));
         }
 
         // Bottleneck
         if (bottleneck.severity == 0) {
-            tvBottleneck.setText("No significant bottleneck");
-            tvBottleneck.setTextColor(Color.parseColor("#2E7D32"));
+            tvBottleneck.setText("Perfectly balanced CPU & GPU");
             pbBottleneck.setProgress(0);
         } else {
-            tvBottleneck.setText("Bottleneck: " + bottleneck.component + " (" + bottleneck.severity + "% severity)");
-            tvBottleneck.setTextColor(Color.parseColor("#E65100"));
+            tvBottleneck.setText(bottleneck.component + " Bottleneck (" + bottleneck.severity + "% severity)");
             pbBottleneck.setProgress(bottleneck.severity);
         }
         tvBottleneckDesc.setText(bottleneck.description != null ? bottleneck.description : "");
@@ -101,20 +93,40 @@ public class ResultsActivity extends AppCompatActivity {
         // Suggestions
         llSuggestions.removeAllViews();
         if (suggestions.isEmpty()) {
-            addLabel(llSuggestions, "Build looks well-optimized!", Color.parseColor("#2E7D32"));
+            addSuggestionLabel(llSuggestions, "Build looks well-optimized!");
         } else {
             for (String s : suggestions) {
-                addLabel(llSuggestions, "• " + s, Color.parseColor("#1565C0"));
+                addSuggestionLabel(llSuggestions, s);
             }
         }
     }
 
-    private void addLabel(LinearLayout parent, String text, int color) {
+    private void addIssueLabel(LinearLayout parent, String text, int textColor, int bgColor) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setTextColor(color);
+        tv.setTextColor(textColor);
         tv.setTextSize(14);
-        tv.setPadding(0, 8, 0, 8);
+        tv.setPadding(32, 24, 32, 24);
+        
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 16);
+        tv.setLayoutParams(params);
+        
+        android.graphics.drawable.GradientDrawable gd = new android.graphics.drawable.GradientDrawable();
+        gd.setColor(bgColor);
+        gd.setCornerRadius(12);
+        tv.setBackground(gd);
+        
+        parent.addView(tv);
+    }
+
+    private void addSuggestionLabel(LinearLayout parent, String text) {
+        TextView tv = new TextView(this);
+        tv.setText("• " + text);
+        tv.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
+        tv.setTextSize(14);
+        tv.setPadding(0, 8, 0, 12);
         parent.addView(tv);
     }
 }

@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.pcchecker.DetailActivity;
 import com.pcchecker.R;
 import com.pcchecker.model.PCComponent;
@@ -22,9 +24,9 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         void onSelect(PCComponent component);
     }
 
-    private List<PCComponent> items;
-    private OnSelectListener listener;
-    private String selectedId;
+    private final List<PCComponent> items;
+    private final OnSelectListener listener;
+    private final String selectedId;
 
     public ComponentAdapter(List<PCComponent> items, String selectedId, OnSelectListener listener) {
         this.items = items;
@@ -33,7 +35,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     }
 
     public void updateList(List<PCComponent> newItems) {
-        this.items = newItems;
+        this.items.clear();
+        this.items.addAll(newItems);
         notifyDataSetChanged();
     }
 
@@ -55,14 +58,15 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
     public int getItemCount() { return items.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvBrand, tvSpecs, tvPrice, tvScore, tvTier, tvDescription;
-        private Button btnSelect;
+        private final ImageView ivThumb;
+        private final TextView tvName, tvBrand, tvPrice, tvScore, tvTier, tvDescription;
+        private final Button btnSelect;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ivThumb = itemView.findViewById(R.id.iv_component_thumb);
             tvName = itemView.findViewById(R.id.tv_component_name);
             tvBrand = itemView.findViewById(R.id.tv_component_brand);
-            tvSpecs = itemView.findViewById(R.id.tv_component_specs);
             tvPrice = itemView.findViewById(R.id.tv_component_price);
             tvScore = itemView.findViewById(R.id.tv_component_score);
             tvTier = itemView.findViewById(R.id.tv_component_tier);
@@ -73,19 +77,23 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         public void bind(PCComponent c, OnSelectListener listener, String selectedId) {
             tvName.setText(c.getName());
             tvBrand.setText(c.getBrand());
-            tvSpecs.setText(c.getSpecSummary());
             tvPrice.setText(c.getPriceRange());
-            tvScore.setText("Score: " + c.getPerformanceScore());
+            tvScore.setText(String.valueOf(c.getPerformanceScore()));
             tvTier.setText(tierLabel(c.getPriceTier()));
             tvDescription.setText(c.getDescription());
 
+            Glide.with(itemView.getContext())
+                    .load(c.getImageUrl())
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_report_image)
+                    .into(ivThumb);
+
             boolean isSelected = c.getId().equals(selectedId);
-            btnSelect.setText(isSelected ? "Selected" : "Select");
+            btnSelect.setText(isSelected ? "Selected" : "Select Component");
             btnSelect.setEnabled(!isSelected);
 
             btnSelect.setOnClickListener(v -> listener.onSelect(c));
 
-            // Make the whole card clickable to view details
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(v.getContext(), DetailActivity.class);
                 intent.putExtra("component", c);
@@ -94,6 +102,7 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
         }
 
         private String tierLabel(PCComponent.PriceTier tier) {
+            if (tier == null) return "";
             switch (tier) {
                 case BUDGET: return "Budget";
                 case MID: return "Mid-range";

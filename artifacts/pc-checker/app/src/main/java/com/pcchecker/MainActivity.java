@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +20,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private BuildManager buildManager;
-
-    // Slot cards
-    private TextView tvCpu, tvGpu, tvRam, tvMb, tvStorage, tvPsu, tvCase;
-    private Button btnAddCpu, btnAddGpu, btnAddRam, btnAddMb, btnAddStorage, btnAddPsu, btnAddCase;
-    private Button btnRemCpu, btnRemGpu, btnRemRam, btnRemMb, btnRemStorage, btnRemPsu, btnRemCase;
 
     // Summary
     private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus;
@@ -50,30 +45,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        tvCpu = findViewById(R.id.tv_cpu);
-        tvGpu = findViewById(R.id.tv_gpu);
-        tvRam = findViewById(R.id.tv_ram);
-        tvMb = findViewById(R.id.tv_mb);
-        tvStorage = findViewById(R.id.tv_storage);
-        tvPsu = findViewById(R.id.tv_psu);
-        tvCase = findViewById(R.id.tv_case);
-
-        btnAddCpu = findViewById(R.id.btn_add_cpu);
-        btnAddGpu = findViewById(R.id.btn_add_gpu);
-        btnAddRam = findViewById(R.id.btn_add_ram);
-        btnAddMb = findViewById(R.id.btn_add_mb);
-        btnAddStorage = findViewById(R.id.btn_add_storage);
-        btnAddPsu = findViewById(R.id.btn_add_psu);
-        btnAddCase = findViewById(R.id.btn_add_case);
-
-        btnRemCpu = findViewById(R.id.btn_rem_cpu);
-        btnRemGpu = findViewById(R.id.btn_rem_gpu);
-        btnRemRam = findViewById(R.id.btn_rem_ram);
-        btnRemMb = findViewById(R.id.btn_rem_mb);
-        btnRemStorage = findViewById(R.id.btn_rem_storage);
-        btnRemPsu = findViewById(R.id.btn_rem_psu);
-        btnRemCase = findViewById(R.id.btn_rem_case);
-
         tvTotalPrice = findViewById(R.id.tv_total_price);
         tvPowerDraw = findViewById(R.id.tv_power_draw);
         tvCompatStatus = findViewById(R.id.tv_compat_status);
@@ -89,15 +60,11 @@ public class MainActivity extends AppCompatActivity {
             else buildManager.setUseCase(PCComponent.UseCase.GENERAL);
         });
 
-        // Set default
-        RadioButton rbGeneral = findViewById(R.id.rb_general);
-        if (rbGeneral != null) {
-            rbGeneral.setChecked(true);
-        }
+        radioUseCase.check(R.id.rb_general);
 
         btnViewResults.setOnClickListener(v -> {
             if (buildManager.getComponentCount() == 0) {
-                Toast.makeText(this, "Add some components first!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Add components to run analysis", Toast.LENGTH_SHORT).show();
                 return;
             }
             startActivity(new Intent(this, ResultsActivity.class));
@@ -106,41 +73,46 @@ public class MainActivity extends AppCompatActivity {
         btnClearBuild.setOnClickListener(v -> {
             buildManager.clearBuild();
             updateUI();
-            Toast.makeText(this, "Build cleared.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Build reset", Toast.LENGTH_SHORT).show();
         });
     }
 
     private void setupSlotButtons() {
-        setupSlot(btnAddCpu, btnRemCpu, PCComponent.Category.CPU);
-        setupSlot(btnAddGpu, btnRemGpu, PCComponent.Category.GPU);
-        setupSlot(btnAddRam, btnRemRam, PCComponent.Category.RAM);
-        setupSlot(btnAddMb, btnRemMb, PCComponent.Category.MOTHERBOARD);
-        setupSlot(btnAddStorage, btnRemStorage, PCComponent.Category.STORAGE);
-        setupSlot(btnAddPsu, btnRemPsu, PCComponent.Category.PSU);
-        setupSlot(btnAddCase, btnRemCase, PCComponent.Category.CASE);
+        setupSlot(R.id.slot_cpu, "CPU", PCComponent.Category.CPU);
+        setupSlot(R.id.slot_gpu, "GPU", PCComponent.Category.GPU);
+        setupSlot(R.id.slot_ram, "RAM", PCComponent.Category.RAM);
+        setupSlot(R.id.slot_mb, "Motherboard", PCComponent.Category.MOTHERBOARD);
+        setupSlot(R.id.slot_storage, "Storage", PCComponent.Category.STORAGE);
+        setupSlot(R.id.slot_psu, "Power Supply", PCComponent.Category.PSU);
+        setupSlot(R.id.slot_case, "Case", PCComponent.Category.CASE);
     }
 
-    private void setupSlot(Button addBtn, Button remBtn, PCComponent.Category category) {
-        addBtn.setOnClickListener(v -> openBrowse(category));
-        remBtn.setOnClickListener(v -> {
+    private void setupSlot(int layoutId, String label, PCComponent.Category category) {
+        View layout = findViewById(layoutId);
+        TextView tvLabel = layout.findViewById(R.id.tv_slot_label);
+        tvLabel.setText(label);
+
+        Button btnAction = layout.findViewById(R.id.btn_slot_action);
+        btnAction.setOnClickListener(v -> {
+            buildManager.setPendingSlot(category);
+            startActivity(new Intent(this, BrowseActivity.class));
+        });
+
+        ImageButton btnRemove = layout.findViewById(R.id.btn_slot_remove);
+        btnRemove.setOnClickListener(v -> {
             buildManager.removeComponent(category);
             updateUI();
         });
     }
 
-    private void openBrowse(PCComponent.Category category) {
-        buildManager.setPendingSlot(category);
-        startActivity(new Intent(this, BrowseActivity.class));
-    }
-
     private void updateUI() {
-        updateSlot(PCComponent.Category.CPU, tvCpu, btnAddCpu, btnRemCpu);
-        updateSlot(PCComponent.Category.GPU, tvGpu, btnAddGpu, btnRemGpu);
-        updateSlot(PCComponent.Category.RAM, tvRam, btnAddRam, btnRemRam);
-        updateSlot(PCComponent.Category.MOTHERBOARD, tvMb, btnAddMb, btnRemMb);
-        updateSlot(PCComponent.Category.STORAGE, tvStorage, btnAddStorage, btnRemStorage);
-        updateSlot(PCComponent.Category.PSU, tvPsu, btnAddPsu, btnRemPsu);
-        updateSlot(PCComponent.Category.CASE, tvCase, btnAddCase, btnRemCase);
+        updateSlotUI(R.id.slot_cpu, PCComponent.Category.CPU);
+        updateSlotUI(R.id.slot_gpu, PCComponent.Category.GPU);
+        updateSlotUI(R.id.slot_ram, PCComponent.Category.RAM);
+        updateSlotUI(R.id.slot_mb, PCComponent.Category.MOTHERBOARD);
+        updateSlotUI(R.id.slot_storage, PCComponent.Category.STORAGE);
+        updateSlotUI(R.id.slot_psu, PCComponent.Category.PSU);
+        updateSlotUI(R.id.slot_case, PCComponent.Category.CASE);
 
         double price = buildManager.getTotalPrice();
         tvTotalPrice.setText(String.format(Locale.US, "Total: ₱%,.0f", price));
@@ -151,26 +123,28 @@ public class MainActivity extends AppCompatActivity {
         if (buildManager.getComponentCount() > 0) {
             CompatibilityResult result = CompatibilityUtils.check(buildManager.getBuild());
             tvCompatStatus.setText(result.getStatusSummary());
-            tvCompatStatus.setTextColor(getColor(
-                    result.isCompatible() ? android.R.color.holo_green_dark : android.R.color.holo_red_dark));
         } else {
             tvCompatStatus.setText("No components added yet.");
-            tvCompatStatus.setTextColor(getColor(android.R.color.darker_gray));
         }
     }
 
-    private void updateSlot(PCComponent.Category category, TextView tv, Button addBtn, Button remBtn) {
+    private void updateSlotUI(int layoutId, PCComponent.Category category) {
+        View layout = findViewById(layoutId);
+        TextView tvValue = layout.findViewById(R.id.tv_slot_value);
+        Button btnAction = layout.findViewById(R.id.btn_slot_action);
+        ImageButton btnRemove = layout.findViewById(R.id.btn_slot_remove);
+
         PCComponent c = buildManager.getComponent(category);
         if (c != null) {
-            tv.setText(c.getName() + "\n" + c.getPriceRange());
-            tv.setTextColor(getColor(android.R.color.black));
-            addBtn.setText("Swap");
-            remBtn.setVisibility(View.VISIBLE);
+            tvValue.setText(c.getName());
+            tvValue.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
+            btnAction.setText("Swap");
+            btnRemove.setVisibility(View.VISIBLE);
         } else {
-            tv.setText("Not selected");
-            tv.setTextColor(getColor(android.R.color.darker_gray));
-            addBtn.setText("Add");
-            remBtn.setVisibility(View.GONE);
+            tvValue.setText("Not selected");
+            tvValue.setTextColor(getResources().getColor(R.color.text_hint, getTheme()));
+            btnAction.setText("Add");
+            btnRemove.setVisibility(View.GONE);
         }
     }
 }

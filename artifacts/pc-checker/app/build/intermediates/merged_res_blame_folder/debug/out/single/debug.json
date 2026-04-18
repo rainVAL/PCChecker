@@ -18,5 +18,13 @@
     {
         "merged": "com.pcchecker.app-merged_res-33:/layout_activity_browse.xml.flat",
         "source": "com.pcchecker.app-main-35:/layout/activity_browse.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_slot_item.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/slot_item.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/drawable_search_bg.xml.flat",
+        "source": "com.pcchecker.app-main-35:/drawable/search_bg.xml"
     }
 ]

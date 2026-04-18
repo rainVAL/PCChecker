@@ -1,300 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/background">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@color/surface"
+        app:elevation="0dp">
 
-        <!-- Title -->
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PC Builder"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PC Compatibility Checker"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#1A237E"
-            android:layout_marginBottom="12dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Use Case Selector -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <LinearLayout
+            <!-- Use Case Selector -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Intended Use"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp"/>
-                <RadioGroup
-                    android:id="@+id/radio_use_case"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/border">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton android:id="@+id/rb_gaming"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gaming"
-                        android:layout_weight="1"/>
-                    <RadioButton android:id="@+id/rb_productivity"
-                        android:layout_width="wrap_content"
+                        android:text="Build Purpose"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="12dp"/>
+                    <RadioGroup
+                        android:id="@+id/radio_use_case"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Productivity"
-                        android:layout_weight="1"/>
-                    <RadioButton android:id="@+id/rb_general"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="General"
-                        android:layout_weight="1"/>
-                </RadioGroup>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_gaming"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Gaming"
+                            android:layout_weight="1"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_productivity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Work"
+                            android:layout_weight="1"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_general"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="General"
+                            android:layout_weight="1"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <!-- Components -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Components"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Component Selection"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:layout_marginBottom="12dp"/>
 
-        <!-- CPU Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="CPU" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_cpu"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_cpu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_cpu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
+            <!-- Slots logic -->
+            <include layout="@layout/slot_item" android:id="@+id/slot_cpu" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_gpu" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_ram" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_mb" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_storage" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_psu" />
+            <include layout="@layout/slot_item" android:id="@+id/slot_case" />
 
-        <!-- GPU Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="GPU" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_gpu"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_gpu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_gpu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- RAM Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="RAM" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_ram"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_ram"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_ram"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Motherboard Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Motherboard" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_mb"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_mb"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_mb"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Storage Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Storage" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_storage"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_storage"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_storage"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- PSU Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Power Supply" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_psu"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_psu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_psu"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Case Slot -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="12dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Case" android:textStyle="bold" android:textColor="#424242"/>
-            <TextView android:id="@+id/tv_case"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Not selected" android:textColor="#9E9E9E"
-                android:layout_marginTop="2dp" android:layout_marginBottom="6dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button android:id="@+id/btn_add_case"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Add" android:textSize="13sp"
-                    android:backgroundTint="#1A237E"
-                    android:layout_marginEnd="8dp"/>
-                <Button android:id="@+id/btn_rem_case"
-                    android:layout_width="wrap_content" android:layout_height="36dp"
-                    android:text="Remove" android:textSize="13sp"
-                    android:backgroundTint="#C62828"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Build Summary -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="3dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <LinearLayout
+            <!-- Build Summary -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Build Summary" android:textStyle="bold"
-                    android:textSize="16sp" android:textColor="#1A237E"
-                    android:layout_marginBottom="6dp"/>
-                <TextView android:id="@+id/tv_total_price"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Total: $0.00" android:textSize="15sp" android:textColor="#333"/>
-                <TextView android:id="@+id/tv_power_draw"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Est. Power: 0W" android:textSize="15sp" android:textColor="#333"
-                    android:layout_marginTop="4dp"/>
-                <TextView android:id="@+id/tv_compat_status"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="No components added yet."
-                    android:textSize="14sp" android:textColor="#9E9E9E"
-                    android:layout_marginTop="6dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/primary">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Build Summary"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginBottom="12dp"/>
+                    <TextView android:id="@+id/tv_total_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: ₱0.00"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"/>
+                    <TextView android:id="@+id/tv_power_draw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Est. Power: 0W"
+                        android:textSize="14sp"
+                        android:textColor="#E0E7FF"
+                        android:layout_marginTop="4dp"/>
 
-        <!-- Actions -->
-        <Button android:id="@+id/btn_view_results"
-            android:layout_width="match_parent" android:layout_height="48dp"
-            android:text="View Compatibility Report"
-            android:textSize="15sp"
-            android:backgroundTint="#1A237E"
-            android:layout_marginBottom="8dp"/>
+                    <View android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#4F46E5"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"/>
 
-        <Button android:id="@+id/btn_clear_build"
-            android:layout_width="match_parent" android:layout_height="48dp"
-            android:text="Clear Build"
-            android:textSize="15sp"
-            android:backgroundTint="#B71C1C"/>
+                    <TextView android:id="@+id/tv_compat_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No components added yet."
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
-</ScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_results"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Run Compatibility Check"
+                app:cornerRadius="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_clear_build"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Reset Build"
+                android:textColor="@color/error"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
