@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_results.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/activity_results.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_detail.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/activity_detail.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_main.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_item_component.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/item_component.xml"
+    },
+    {
+        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_browse.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/activity_browse.xml"
+    }
+]
