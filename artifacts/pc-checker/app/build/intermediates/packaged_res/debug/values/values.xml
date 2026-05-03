@@ -17,6 +17,18 @@
     <color name="warning">#F59E0B</color>
     <color name="warning_light">#FEF3C7</color>
     <string name="app_name">PC Checker</string>
+    <string name="intro_desc_1">Computers are powerful tools that process information and perform complex tasks at incredible speeds.</string>
+    <string name="intro_desc_2">Building your own PC allows for customization, better value, and the satisfaction of creation.</string>
+    <string name="intro_desc_3">Our app helps you choose compatible parts and ensure your build is balanced and ready.</string>
+    <string name="intro_get_started">Get Started</string>
+    <string name="intro_next">Next</string>
+    <string name="intro_skip">Skip</string>
+    <string name="intro_title_1">Explore Tech</string>
+    <string name="intro_title_2">Build Your Own</string>
+    <string name="intro_title_3">Check Compatibility</string>
+    <string name="main_prebuilt_btn">Explore Pre-built PCs</string>
+    <string name="prebuilt_select_btn">Select This PC</string>
+    <string name="prebuilt_title">Pre-built PCs</string>
     <style name="Theme.PCChecker" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>

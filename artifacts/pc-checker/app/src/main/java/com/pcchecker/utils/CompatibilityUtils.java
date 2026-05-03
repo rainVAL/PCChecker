@@ -20,24 +20,27 @@ public class CompatibilityUtils {
         // CPU + Motherboard socket
         if (cpu != null && mb != null) {
             if (!cpu.getSocket().equals(mb.getSocket())) {
-                result.addError("CPU socket " + cpu.getSocket() +
-                        " is incompatible with motherboard socket " + mb.getSocket() + ".");
+                String msg = "CPU socket " + cpu.getSocket() + " is incompatible with motherboard socket " + mb.getSocket() + ".";
+                result.addError(PCComponent.Category.CPU, msg);
+                result.addError(PCComponent.Category.MOTHERBOARD, msg);
             }
         }
 
         // RAM + Motherboard memory type
         if (ram != null && mb != null) {
             if (!ram.getMemoryType().equals(mb.getSupportedMemoryType())) {
-                result.addError("RAM type " + ram.getMemoryType() +
-                        " is not supported by this motherboard (" + mb.getSupportedMemoryType() + " required).");
+                String msg = "RAM type " + ram.getMemoryType() + " is not supported by this motherboard (" + mb.getSupportedMemoryType() + " required).";
+                result.addError(PCComponent.Category.RAM, msg);
+                result.addError(PCComponent.Category.MOTHERBOARD, msg);
             }
         }
 
         // GPU length vs case clearance
         if (gpu != null && pcCase != null) {
             if (gpu.getGpuLengthMm() > pcCase.getMaxGpuLengthMm()) {
-                result.addError("GPU (" + gpu.getGpuLengthMm() + "mm) is too long for the case" +
-                        " (max " + pcCase.getMaxGpuLengthMm() + "mm).");
+                String msg = "GPU (" + gpu.getGpuLengthMm() + "mm) is too long for the case (max " + pcCase.getMaxGpuLengthMm() + "mm).";
+                result.addError(PCComponent.Category.GPU, msg);
+                result.addError(PCComponent.Category.CASE, msg);
             }
         }
 
@@ -45,10 +48,10 @@ public class CompatibilityUtils {
         if (mb != null && pcCase != null) {
             String mbForm = mb.getFormFactor();
             String caseForm = pcCase.getSupportedFormFactor();
-            if ("mATX".equals(mbForm) && "ATX".equals(caseForm)) {
-                // mATX fits in ATX case — no issue
-            } else if ("ATX".equals(mbForm) && "mATX".equals(caseForm)) {
-                result.addError("ATX motherboard does not fit in a mATX case.");
+            if ("ATX".equals(mbForm) && "mATX".equals(caseForm)) {
+                String msg = "ATX motherboard does not fit in a mATX case.";
+                result.addError(PCComponent.Category.MOTHERBOARD, msg);
+                result.addError(PCComponent.Category.CASE, msg);
             }
         }
 
@@ -57,8 +60,7 @@ public class CompatibilityUtils {
             int totalDraw = estimatePowerDraw(build);
             int requiredWithHeadroom = (int) (totalDraw * 1.25);
             if (psu.getWattage() < totalDraw) {
-                result.addError("PSU (" + psu.getWattage() + "W) is insufficient for this build" +
-                        " (estimated " + totalDraw + "W draw).");
+                result.addError(PCComponent.Category.PSU, "PSU (" + psu.getWattage() + "W) is insufficient for this build (estimated " + totalDraw + "W draw).");
             } else if (psu.getWattage() < requiredWithHeadroom) {
                 result.addWarning("PSU has little headroom. Recommended: " +
                         requiredWithHeadroom + "W for safety (current: " + psu.getWattage() + "W).");

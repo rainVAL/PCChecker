@@ -48,6 +48,14 @@
             android:name="com.pcchecker.DetailActivity"
             android:exported="false"
             android:label="Component Details" />
+        <activity
+            android:name="com.pcchecker.IntroActivity"
+            android:exported="false"
+            android:label="Introduction" />
+        <activity
+            android:name="com.pcchecker.PreBuiltActivity"
+            android:exported="false"
+            android:label="PC Templates" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

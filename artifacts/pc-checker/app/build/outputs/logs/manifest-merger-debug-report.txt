@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-40:12
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\pc\.gradle\caches\transforms-3\f570898b3a8103785762393a2a8adf27\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\pc\.gradle\caches\transforms-3\2213277e0f5a09e2874d3c9a9dbb8d87\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -62,8 +62,8 @@ ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\s
 	android:name
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-38:19
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-38:19
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-48:19
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-48:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\pc\.gradle\caches\transforms-3\f570898b3a8103785762393a2a8adf27\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -136,6 +136,22 @@ ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\s
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:35:13-37
 	android:name
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:34:13-43
+activity#com.pcchecker.IntroActivity
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:38:9-41:44
+	android:label
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:41:13-41
+	android:exported
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:40:13-37
+	android:name
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:39:13-42
+activity#com.pcchecker.PreBuiltActivity
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:43:9-46:44
+	android:label
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:46:13-41
+	android:exported
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:45:13-37
+	android:name
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:44:13-45
 uses-sdk
 INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml

@@ -35,6 +35,16 @@
             android:exported="false"
             android:label="Component Details" />
 
+        <activity
+            android:name=".IntroActivity"
+            android:exported="false"
+            android:label="Introduction" />
+
+        <activity
+            android:name=".PreBuiltActivity"
+            android:exported="false"
+            android:label="PC Templates" />
+
     </application>
 
 </manifest>

@@ -8,6 +8,62 @@ import java.util.Map;
 
 public class SuggestionUtils {
 
+    public static List<String> getPairingSuggestions(PCComponent component) {
+        List<String> suggestions = new ArrayList<>();
+        if (component == null) return suggestions;
+
+        switch (component.getCategory()) {
+            case CPU:
+                suggestions.add("Pair with " + component.getSocket() + " socket motherboards.");
+                if (component.getPerformanceScore() > 80) {
+                    suggestions.add("Pairs best with high-end Z-series or X-series motherboards for overclocking.");
+                    suggestions.add("Requires a robust CPU cooler (240mm AIO or dual-tower air cooler).");
+                } else if (component.getPerformanceScore() > 60) {
+                    suggestions.add("Pairs well with mid-range B-series motherboards.");
+                }
+                break;
+
+            case GPU:
+                if (component.getPerformanceScore() > 85) {
+                    suggestions.add("Pairs best with 850W+ Gold-rated power supplies.");
+                    suggestions.add("Requires a large ATX case (check GPU length: " + component.getGpuLengthMm() + "mm).");
+                } else if (component.getPerformanceScore() > 60) {
+                    suggestions.add("Pairs well with 650W - 750W power supplies.");
+                } else {
+                    suggestions.add("Pairs well with budget-friendly 500W+ power supplies.");
+                }
+                break;
+
+            case MOTHERBOARD:
+                suggestions.add("Requires a CPU with " + component.getSocket() + " socket.");
+                suggestions.add("Requires " + component.getSupportedMemoryType() + " RAM.");
+                suggestions.add("Fits in " + component.getFormFactor() + " or larger cases.");
+                break;
+
+            case RAM:
+                suggestions.add("Ensure your motherboard supports " + component.getMemoryType() + " memory.");
+                if (component.getRamCapacityGb() < 16) {
+                    suggestions.add("Consider adding a second stick for Dual Channel performance.");
+                }
+                break;
+
+            case CASE:
+                suggestions.add("Supports motherboards up to " + component.getSupportedFormFactor() + " size.");
+                suggestions.add("Fits GPUs up to " + component.getMaxGpuLengthMm() + "mm in length.");
+                break;
+
+            case PSU:
+                if (component.getWattage() > 800) {
+                    suggestions.add("Ideal for high-end builds with RTX 4080/4090 or RX 7900 XTX.");
+                } else if (component.getWattage() > 600) {
+                    suggestions.add("Great for mid-to-high end builds with RTX 4070 or RX 7800 XT.");
+                }
+                break;
+        }
+
+        return suggestions;
+    }
+
     public static List<String> getSuggestions(Map<PCComponent.Category, PCComponent> build,
                                                PCComponent.UseCase useCase) {
         List<String> suggestions = new ArrayList<>();

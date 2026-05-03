@@ -1,30 +1,78 @@
 [
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_results.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/activity_results.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_results.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_results.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_detail.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/activity_detail.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_tab_selector.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\tab_selector.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_main.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/activity_main.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_detail.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_detail.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_item_component.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/item_component.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_ic_intro_build.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\ic_intro_build.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_activity_browse.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/activity_browse.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_tab_unselected.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\tab_unselected.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/layout_slot_item.xml.flat",
-        "source": "com.pcchecker.app-main-35:/layout/slot_item.xml"
+        "merged": "com.pcchecker.app-merged_res-33:/layout_item_prebuilt.xml.flat",
+        "source": "com.pcchecker.app-main-35:/layout/item_prebuilt.xml"
     },
     {
-        "merged": "com.pcchecker.app-merged_res-33:/drawable_search_bg.xml.flat",
-        "source": "com.pcchecker.app-main-35:/drawable/search_bg.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_intro.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_intro.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_item_component.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\item_component.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_browse.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_browse.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_search_bg.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\search_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_ic_intro_check.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\ic_intro_check.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_ic_intro_tech.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\ic_intro_tech.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_item_prebuilt.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\item_prebuilt.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_tab_selected.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\tab_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\drawable_circle_bg.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\drawable\\circle_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_activity_prebuilt.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\activity_prebuilt.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_slot_item.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\slot_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-merged_res-33:\\layout_item_intro_page.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.5\\com.pcchecker.app-main-35:\\layout\\item_intro_page.xml"
     }
 ]

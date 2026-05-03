@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.pcchecker.model.PCComponent;
+import com.pcchecker.utils.SuggestionUtils;
 
+import java.util.List;
 import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
@@ -38,6 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView tvDescription = findViewById(R.id.tv_detail_description);
         TextView tvSpecs = findViewById(R.id.tv_detail_specs);
         TextView tvScore = findViewById(R.id.tv_detail_score);
+        TextView tvPairing = findViewById(R.id.tv_detail_pairing);
         Button btnSelect = findViewById(R.id.btn_detail_select);
 
         tvName.setText(component.getName());
@@ -46,6 +49,18 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription.setText(component.getDescription());
         tvSpecs.setText(component.getSpecSummary());
         tvScore.setText("Performance Score: " + component.getPerformanceScore());
+
+        // Setup Pairing Suggestions
+        List<String> suggestions = SuggestionUtils.getPairingSuggestions(component);
+        if (suggestions.isEmpty()) {
+            findViewById(R.id.card_suggestions).setVisibility(android.view.View.GONE);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (String s : suggestions) {
+                sb.append("• ").append(s).append("\n");
+            }
+            tvPairing.setText(sb.toString().trim());
+        }
 
         Glide.with(this)
                 .load(component.getImageUrl())

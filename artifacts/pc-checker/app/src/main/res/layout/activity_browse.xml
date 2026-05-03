@@ -21,7 +21,6 @@
                 android:id="@+id/tv_browse_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Component"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"

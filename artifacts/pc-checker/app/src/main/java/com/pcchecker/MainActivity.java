@@ -1,11 +1,11 @@
 package com.pcchecker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +22,21 @@ public class MainActivity extends AppCompatActivity {
     private BuildManager buildManager;
 
     // Summary
-    private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus;
-    private Button btnViewResults, btnClearBuild;
-    private RadioGroup radioUseCase;
+    private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus, tvHealthLabel;
+    private Button btnViewResults, btnClearBuild, btnPrebuilt;
+    private com.google.android.material.progressindicator.LinearProgressIndicator progressHealth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        if (prefs.getBoolean("first_run", true)) {
+            startActivity(new Intent(this, IntroActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
         buildManager = BuildManager.getInstance();
 
@@ -48,19 +56,17 @@ public class MainActivity extends AppCompatActivity {
         tvTotalPrice = findViewById(R.id.tv_total_price);
         tvPowerDraw = findViewById(R.id.tv_power_draw);
         tvCompatStatus = findViewById(R.id.tv_compat_status);
+        tvHealthLabel = findViewById(R.id.tv_health_label);
+        progressHealth = findViewById(R.id.progress_health);
         btnViewResults = findViewById(R.id.btn_view_results);
         btnClearBuild = findViewById(R.id.btn_clear_build);
-        radioUseCase = findViewById(R.id.radio_use_case);
+        btnPrebuilt = findViewById(R.id.btn_prebuilt_list);
     }
 
     private void setupUseCaseSelector() {
-        radioUseCase.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_gaming) buildManager.setUseCase(PCComponent.UseCase.GAMING);
-            else if (checkedId == R.id.rb_productivity) buildManager.setUseCase(PCComponent.UseCase.PRODUCTIVITY);
-            else buildManager.setUseCase(PCComponent.UseCase.GENERAL);
+        btnPrebuilt.setOnClickListener(v -> {
+            startActivity(new Intent(this, PreBuiltActivity.class));
         });
-
-        radioUseCase.check(R.id.rb_general);
 
         btnViewResults.setOnClickListener(v -> {
             if (buildManager.getComponentCount() == 0) {
@@ -106,13 +112,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        updateSlotUI(R.id.slot_cpu, PCComponent.Category.CPU);
-        updateSlotUI(R.id.slot_gpu, PCComponent.Category.GPU);
-        updateSlotUI(R.id.slot_ram, PCComponent.Category.RAM);
-        updateSlotUI(R.id.slot_mb, PCComponent.Category.MOTHERBOARD);
-        updateSlotUI(R.id.slot_storage, PCComponent.Category.STORAGE);
-        updateSlotUI(R.id.slot_psu, PCComponent.Category.PSU);
-        updateSlotUI(R.id.slot_case, PCComponent.Category.CASE);
+        CompatibilityResult result = CompatibilityUtils.check(buildManager.getBuild());
+
+        updateSlotUI(R.id.slot_cpu, PCComponent.Category.CPU, result);
+        updateSlotUI(R.id.slot_gpu, PCComponent.Category.GPU, result);
+        updateSlotUI(R.id.slot_ram, PCComponent.Category.RAM, result);
+        updateSlotUI(R.id.slot_mb, PCComponent.Category.MOTHERBOARD, result);
+        updateSlotUI(R.id.slot_storage, PCComponent.Category.STORAGE, result);
+        updateSlotUI(R.id.slot_psu, PCComponent.Category.PSU, result);
+        updateSlotUI(R.id.slot_case, PCComponent.Category.CASE, result);
 
         double price = buildManager.getTotalPrice();
         tvTotalPrice.setText(String.format(Locale.US, "Total: ₱%,.0f", price));
@@ -121,18 +129,22 @@ public class MainActivity extends AppCompatActivity {
         tvPowerDraw.setText("Est. Power: " + power + "W");
 
         if (buildManager.getComponentCount() > 0) {
-            CompatibilityResult result = CompatibilityUtils.check(buildManager.getBuild());
             tvCompatStatus.setText(result.getStatusSummary());
+            progressHealth.setProgress(result.getPerformanceBalance(), true);
+            tvHealthLabel.setText("Build Performance Balance: " + result.getPerformanceBalance() + "%");
         } else {
             tvCompatStatus.setText("No components added yet.");
+            progressHealth.setProgress(0, true);
+            tvHealthLabel.setText("Build Performance Balance: 0%");
         }
     }
 
-    private void updateSlotUI(int layoutId, PCComponent.Category category) {
+    private void updateSlotUI(int layoutId, PCComponent.Category category, CompatibilityResult result) {
         View layout = findViewById(layoutId);
         TextView tvValue = layout.findViewById(R.id.tv_slot_value);
         Button btnAction = layout.findViewById(R.id.btn_slot_action);
         ImageButton btnRemove = layout.findViewById(R.id.btn_slot_remove);
+        android.widget.ImageView ivStatus = layout.findViewById(R.id.iv_slot_status);
 
         PCComponent c = buildManager.getComponent(category);
         if (c != null) {
@@ -140,11 +152,24 @@ public class MainActivity extends AppCompatActivity {
             tvValue.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
             btnAction.setText("Swap");
             btnRemove.setVisibility(View.VISIBLE);
+            ivStatus.setVisibility(View.VISIBLE);
+
+            if (result.hasError(category)) {
+                ivStatus.setImageResource(android.R.drawable.ic_dialog_alert);
+                ivStatus.setImageTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.error, getTheme())));
+                ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.error, getTheme()));
+            } else {
+                ivStatus.setImageResource(android.R.drawable.checkbox_on_background);
+                ivStatus.setImageTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.success, getTheme())));
+                ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.border, getTheme()));
+            }
         } else {
             tvValue.setText("Not selected");
             tvValue.setTextColor(getResources().getColor(R.color.text_hint, getTheme()));
             btnAction.setText("Add");
             btnRemove.setVisibility(View.GONE);
+            ivStatus.setVisibility(View.GONE);
+            ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.border, getTheme()));
         }
     }
 }
