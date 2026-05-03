@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Summary
     private TextView tvTotalPrice, tvPowerDraw, tvCompatStatus, tvHealthLabel;
-    private Button btnViewResults, btnClearBuild, btnPrebuilt;
+    private Button btnViewResults, btnClearBuild, btnPrebuilt, btnSaved;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressHealth;
 
     @Override
@@ -61,11 +61,16 @@ public class MainActivity extends AppCompatActivity {
         btnViewResults = findViewById(R.id.btn_view_results);
         btnClearBuild = findViewById(R.id.btn_clear_build);
         btnPrebuilt = findViewById(R.id.btn_prebuilt_list);
+        btnSaved = findViewById(R.id.btn_saved_builds);
     }
 
     private void setupUseCaseSelector() {
         btnPrebuilt.setOnClickListener(v -> {
             startActivity(new Intent(this, PreBuiltActivity.class));
+        });
+
+        btnSaved.setOnClickListener(v -> {
+            startActivity(new Intent(this, SavedBuildsActivity.class));
         });
 
         btnViewResults.setOnClickListener(v -> {
@@ -131,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
         if (buildManager.getComponentCount() > 0) {
             tvCompatStatus.setText(result.getStatusSummary());
             progressHealth.setProgress(result.getPerformanceBalance(), true);
-            tvHealthLabel.setText("Build Performance Balance: " + result.getPerformanceBalance() + "%");
+            tvHealthLabel.setText(getString(R.string.main_sync_label, result.getPerformanceBalance()));
         } else {
-            tvCompatStatus.setText("No components added yet.");
+            tvCompatStatus.setText(R.string.main_ready_status);
             progressHealth.setProgress(0, true);
-            tvHealthLabel.setText("Build Performance Balance: 0%");
+            tvHealthLabel.setText(getString(R.string.main_sync_label, 0));
         }
     }
 
@@ -145,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnAction = layout.findViewById(R.id.btn_slot_action);
         ImageButton btnRemove = layout.findViewById(R.id.btn_slot_remove);
         android.widget.ImageView ivStatus = layout.findViewById(R.id.iv_slot_status);
+        com.google.android.material.card.MaterialCardView cardIcon = layout.findViewById(R.id.card_slot_icon);
 
         PCComponent c = buildManager.getComponent(category);
         if (c != null) {
@@ -152,15 +158,16 @@ public class MainActivity extends AppCompatActivity {
             tvValue.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
             btnAction.setText("Swap");
             btnRemove.setVisibility(View.VISIBLE);
-            ivStatus.setVisibility(View.VISIBLE);
 
             if (result.hasError(category)) {
                 ivStatus.setImageResource(android.R.drawable.ic_dialog_alert);
                 ivStatus.setImageTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.error, getTheme())));
+                cardIcon.setCardBackgroundColor(getResources().getColor(R.color.error_light, getTheme()));
                 ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.error, getTheme()));
             } else {
                 ivStatus.setImageResource(android.R.drawable.checkbox_on_background);
                 ivStatus.setImageTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.success, getTheme())));
+                cardIcon.setCardBackgroundColor(getResources().getColor(R.color.success_light, getTheme()));
                 ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.border, getTheme()));
             }
         } else {
@@ -168,7 +175,9 @@ public class MainActivity extends AppCompatActivity {
             tvValue.setTextColor(getResources().getColor(R.color.text_hint, getTheme()));
             btnAction.setText("Add");
             btnRemove.setVisibility(View.GONE);
-            ivStatus.setVisibility(View.GONE);
+            ivStatus.setImageResource(android.R.drawable.ic_menu_add);
+            ivStatus.setImageTintList(android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.text_hint, getTheme())));
+            cardIcon.setCardBackgroundColor(getResources().getColor(R.color.background, getTheme()));
             ((com.google.android.material.card.MaterialCardView) layout).setStrokeColor(getResources().getColor(R.color.border, getTheme()));
         }
     }

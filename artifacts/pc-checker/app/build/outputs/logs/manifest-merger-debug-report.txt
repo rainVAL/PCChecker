@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-50:12
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-56:12
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:2:1-56:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\pc\.gradle\caches\transforms-3\f570898b3a8103785762393a2a8adf27\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\pc\.gradle\caches\transforms-3\2213277e0f5a09e2874d3c9a9dbb8d87\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -62,8 +62,8 @@ ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\s
 	android:name
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-48:19
-INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-48:19
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-54:19
+INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:6:5-54:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\pc\.gradle\caches\transforms-3\6fe221ef3627acc9045c8968b4817037\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\pc\.gradle\caches\transforms-3\f570898b3a8103785762393a2a8adf27\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -85,73 +85,83 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\pc
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] C:\Users\pc\.gradle\caches\transforms-3\69031d9de34e6ae4e80492f7a424b6d1\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:11:9-35
 	android:label
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:9:9-41
+	android:roundIcon
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:10:9-46
 	android:icon
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:8:9-58
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:8:9-41
 	android:allowBackup
 		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:7:9-35
 	android:theme
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:11:9-47
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:12:9-47
 activity#com.pcchecker.MainActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:13:9-21:20
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:14:9-22:20
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:16:13-45
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:17:13-45
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:15:13-36
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:16:13-36
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:14:13-41
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:15:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:17:13-20:29
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:18:13-21:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:18:17-69
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:19:17-69
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:18:25-66
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:19:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:19:17-77
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:20:17-77
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:19:27-74
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:20:27-74
 activity#com.pcchecker.BrowseActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:23:9-26:49
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:24:9-27:49
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:26:13-46
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:27:13-46
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:25:13-37
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:26:13-37
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:24:13-43
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:25:13-43
 activity#com.pcchecker.ResultsActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:28:9-31:52
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:29:9-32:52
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:31:13-49
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:32:13-49
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:30:13-37
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:31:13-37
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:29:13-44
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:30:13-44
 activity#com.pcchecker.DetailActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:33:9-36:49
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:34:9-37:49
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:36:13-46
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:37:13-46
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:35:13-37
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:36:13-37
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:34:13-43
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:35:13-43
 activity#com.pcchecker.IntroActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:38:9-41:44
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:39:9-42:44
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:41:13-41
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:42:13-41
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:40:13-37
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:41:13-37
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:39:13-42
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:40:13-42
 activity#com.pcchecker.PreBuiltActivity
-ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:43:9-46:44
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:44:9-47:44
 	android:label
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:46:13-41
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:47:13-41
 	android:exported
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:45:13-37
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:46:13-37
 	android:name
-		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:44:13-45
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:45:13-45
+activity#com.pcchecker.SavedBuildsActivity
+ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:49:9-52:44
+	android:label
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:52:13-41
+	android:exported
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:51:13-37
+	android:name
+		ADDED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml:50:13-48
 uses-sdk
 INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\pc\Downloads\Component-Checkerzip\artifacts\pc-checker\app\src\main\AndroidManifest.xml

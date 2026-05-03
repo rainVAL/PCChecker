@@ -47,6 +47,7 @@ public class BrowseActivity extends AppCompatActivity {
         spinnerSort = findViewById(R.id.spinner_sort);
         spinnerTier = findViewById(R.id.spinner_tier);
         tvTitle = findViewById(R.id.tv_browse_title);
+        findViewById(R.id.btn_back_browse).setOnClickListener(v -> finish());
         RecyclerView recycler = findViewById(R.id.recycler_components);
 
         PCComponent.Category slot = buildManager.getPendingSlot();

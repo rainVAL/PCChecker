@@ -21,8 +21,9 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
-        android:icon="@android:drawable/sym_def_app_icon"
+        android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.PCChecker" >
@@ -56,6 +57,10 @@
             android:name="com.pcchecker.PreBuiltActivity"
             android:exported="false"
             android:label="PC Templates" />
+        <activity
+            android:name="com.pcchecker.SavedBuildsActivity"
+            android:exported="false"
+            android:label="Saved Builds" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

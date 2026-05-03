@@ -5,8 +5,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@android:drawable/sym_def_app_icon"
+        android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.PCChecker">
 
@@ -44,6 +45,11 @@
             android:name=".PreBuiltActivity"
             android:exported="false"
             android:label="PC Templates" />
+
+        <activity
+            android:name=".SavedBuildsActivity"
+            android:exported="false"
+            android:label="Saved Builds" />
 
     </application>
 

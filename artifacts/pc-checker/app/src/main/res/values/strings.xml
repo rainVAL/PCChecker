@@ -17,4 +17,30 @@
     <string name="main_prebuilt_btn">Explore Pre-built PCs</string>
     <string name="prebuilt_title">Pre-built PCs</string>
     <string name="prebuilt_select_btn">Select This PC</string>
+
+    <string name="main_title">Build Your PC</string>
+    <string name="main_subtitle">Select components to begin</string>
+    <string name="main_saved_btn">Saved Builds</string>
+    <string name="main_total_label">Current Total</string>
+    <string name="main_power_label">Estimated Draw</string>
+    <string name="main_sync_label">Sync: %1$d%%</string>
+    <string name="main_ready_status">Add components for status</string>
+    <string name="main_analyze_btn">Analyze Build</string>
+    <string name="main_reset_btn">Reset Configuration</string>
+    <string name="main_components_header">System Components</string>
+
+    <string name="detail_pairing_header">Expert Pairing Advice</string>
+    <string name="detail_about_header">About the product</string>
+    <string name="detail_specs_header">Technical Specifications</string>
+    <string name="detail_add_btn">Add to Build</string>
+
+    <string name="browse_title">Browse Parts</string>
+    <string name="browse_search_hint">Search brands or models…</string>
+
+    <string name="results_compatible">Build is Compatible!</string>
+    <string name="results_errors">%1$d Compatibility Error(s)</string>
+    <string name="results_sync_optimized">Highly Optimized Build (%1$d%%)</string>
+    <string name="results_sync_balanced">Moderately Balanced (%1$d%%)</string>
+    <string name="results_tips_header">Optimization Tips</string>
+    <string name="detail_score_label">Performance Score: %1$d</string>
 </resources>

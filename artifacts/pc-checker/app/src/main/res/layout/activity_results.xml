@@ -14,7 +14,15 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_results"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@android:drawable/ic_menu_revert">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Build Analysis"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,14 +35,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <!-- Overall status -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                android:layout_marginBottom="24dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp">
                 <LinearLayout
@@ -42,52 +49,59 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp"
+                    android:padding="32dp"
                     android:background="@color/primary"
                     android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_status_icon"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@android:drawable/checkbox_on_background"
+                        app:tint="@color/white"
+                        android:layout_marginBottom="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_compat_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Analyzing Build..."
-                        android:textColor="#FFFFFF"
+                        android:text="System Compatible"
+                        android:textColor="@color/white"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:gravity="center"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Performance Balance -->
+            <!-- Performance Dashboard -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Performance Metrics"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="12dp"/>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/border">
+                android:layout_marginBottom="24dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Performance Balance"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="12dp"/>
-                    <TextView
-                        android:id="@+id/tv_balance_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Overall Sync: --"
+                        android:text="Balance Score"
                         android:textSize="14sp"
                         android:textColor="@color/text_secondary"
                         android:layout_marginBottom="8dp"/>
+
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/pb_balance"
                         android:layout_width="match_parent"
@@ -95,65 +109,33 @@
                         app:indicatorColor="@color/primary"
                         app:trackColor="@color/primary_light"
                         app:trackCornerRadius="4dp"
-                        app:trackThickness="8dp"
-                        android:progress="0"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        app:trackThickness="10dp"
+                        android:progress="85"/>
 
-            <!-- Errors/Warnings Container -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Compatibility Issues"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
-
-            <LinearLayout
-                android:id="@+id/ll_errors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="8dp"/>
-
-            <LinearLayout
-                android:id="@+id/ll_warnings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Bottleneck -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/border">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
                     <TextView
+                        android:id="@+id/tv_balance_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bottleneck Analysis"
+                        android:text="Highly Optimized Build"
+                        android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="12dp"/>
+                        android:textColor="@color/primary"
+                        android:layout_marginTop="8dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border"
+                        android:layout_marginVertical="20dp"/>
+
                     <TextView
-                        android:id="@+id/tv_bottleneck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Analyzing GPU/CPU match..."
+                        android:text="Bottleneck Risk"
                         android:textSize="14sp"
                         android:textColor="@color/text_secondary"
                         android:layout_marginBottom="8dp"/>
+
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/pb_bottleneck"
                         android:layout_width="match_parent"
@@ -161,36 +143,62 @@
                         app:indicatorColor="@color/warning"
                         app:trackColor="@color/warning_light"
                         app:trackCornerRadius="4dp"
-                        app:trackThickness="8dp"
-                        android:progress="0"
-                        android:layout_marginBottom="12dp"/>
+                        app:trackThickness="10dp"
+                        android:progress="15"/>
+
                     <TextView
-                        android:id="@+id/tv_bottleneck_desc"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_bottleneck"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Low Risk"
                         android:textSize="13sp"
-                        android:textColor="@color/text_secondary"
-                        android:lineSpacingExtra="3dp"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/warning"
+                        android:layout_marginTop="8dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Suggestions -->
+            <!-- Issues Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Smart Suggestions"
+                android:text="Detailed Findings"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@color/text_primary"
                 android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_errors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/ll_warnings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <LinearLayout
                 android:id="@+id/ll_suggestions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_build"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Save This Build"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                app:icon="@android:drawable/ic_menu_save"
+                app:iconPadding="12dp"
+                app:backgroundTint="@color/accent"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

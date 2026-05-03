@@ -8,43 +8,229 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-        </com.google.android.material.appbar.MaterialToolbar>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="24dp"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_title"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_subtitle"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_logo"
+                    android:padding="12dp"
+                    android:contentDescription="@string/app_name" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="20dp">
 
-            <!-- Pre-built PCs Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_prebuilt_list"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            <!-- Quick Actions Row -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/main_prebuilt_btn"
-                android:textColor="@color/accent"
-                app:strokeColor="@color/accent"
-                app:cornerRadius="12dp"
-                android:layout_marginBottom="16dp"
-                app:icon="@android:drawable/ic_menu_agenda"
-                app:iconTint="@color/accent"
-                app:iconPadding="8dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
 
-            <!-- Slots logic -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_prebuilt_list"
+                    style="@style/AppButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/prebuilt_title"
+                    android:layout_marginEnd="8dp"
+                    app:icon="@android:drawable/ic_menu_agenda"
+                    app:iconSize="18dp"
+                    app:iconPadding="8dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_saved_builds"
+                    style="@style/AppButton.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/main_saved_btn"
+                    android:textColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:icon="@android:drawable/ic_menu_save"
+                    app:iconTint="@color/primary"
+                    app:iconSize="18dp"
+                    app:iconPadding="8dp"/>
+            </LinearLayout>
+
+            <!-- Status Dashboard Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/primary"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_total_label"
+                            android:textSize="12sp"
+                            android:textColor="#C7D2FE"
+                            android:textAllCaps="true"
+                            android:letterSpacing="0.1"/>
+                        <TextView
+                            android:id="@+id/tv_total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="₱0.00"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/tv_total_price"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical"
+                            android:gravity="end">
+                            <TextView
+                                android:id="@+id/tv_power_draw"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0W TDP"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:textSize="14sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/main_power_label"
+                                android:textColor="#C7D2FE"
+                                android:textSize="11sp"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#4F46E5"
+                        android:layout_marginVertical="20dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@android:drawable/ic_dialog_info"
+                            app:tint="@color/white"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/tv_compat_status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="@string/main_ready_status"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tv_health_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sync: 0%"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progress_health"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:indicatorColor="@color/accent"
+                        app:trackColor="#4F46E5"
+                        app:trackCornerRadius="4dp"
+                        app:trackThickness="6dp"
+                        android:progress="0"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Slots Section Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_components_header"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="4dp"/>
+
             <include layout="@layout/slot_item" android:id="@+id/slot_cpu" />
             <include layout="@layout/slot_item" android:id="@+id/slot_gpu" />
             <include layout="@layout/slot_item" android:id="@+id/slot_ram" />
@@ -53,99 +239,31 @@
             <include layout="@layout/slot_item" android:id="@+id/slot_psu" />
             <include layout="@layout/slot_item" android:id="@+id/slot_case" />
 
-            <!-- Build Summary -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/primary">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Build Summary"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginBottom="12dp"/>
-                    <TextView android:id="@+id/tv_total_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total: ₱0.00"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"/>
-                    <TextView android:id="@+id/tv_power_draw"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Est. Power: 0W"
-                        android:textSize="14sp"
-                        android:textColor="#E0E7FF"
-                        android:layout_marginTop="4dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="16dp">
-                        <TextView
-                            android:id="@+id/tv_health_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Build Performance Balance: 0%"
-                            android:textSize="12sp"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginBottom="4dp"/>
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progress_health"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:indicatorColor="@color/accent"
-                            app:trackColor="#4F46E5"
-                            app:trackCornerRadius="4dp"
-                            app:trackThickness="8dp"
-                            android:progress="0"/>
-                    </LinearLayout>
-
-                    <View android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#4F46E5"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"/>
-
-                    <TextView android:id="@+id/tv_compat_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No components added yet."
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_view_results"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Analyze My Build"
-                app:cornerRadius="12dp"
-                android:layout_marginBottom="12dp"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_clear_build"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/AppButton.Text"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Reset Build"
-                android:textColor="@color/error"/>
+                android:layout_height="wrap_content"
+                android:text="@string/main_reset_btn"
+                android:textColor="@color/error"
+                android:layout_marginTop="16dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Action Button for Analysis -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_view_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:text="@string/main_analyze_btn"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:icon="@android:drawable/ic_menu_search"
+        app:iconTint="@color/white"
+        app:backgroundTint="@color/primary"
+        app:elevation="8dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

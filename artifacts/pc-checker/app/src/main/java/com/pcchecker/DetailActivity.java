@@ -26,6 +26,14 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         buildManager = BuildManager.getInstance();
 
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         component = (PCComponent) getIntent().getSerializableExtra("component");
 
         if (component == null) {
@@ -48,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         tvPrice.setText(component.getPriceRange());
         tvDescription.setText(component.getDescription());
         tvSpecs.setText(component.getSpecSummary());
-        tvScore.setText("Performance Score: " + component.getPerformanceScore());
+        tvScore.setText(getString(R.string.detail_score_label, component.getPerformanceScore()));
 
         // Setup Pairing Suggestions
         List<String> suggestions = SuggestionUtils.getPairingSuggestions(component);

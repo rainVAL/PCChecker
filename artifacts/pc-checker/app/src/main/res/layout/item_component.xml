@@ -5,10 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/border">
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,20 +17,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="top">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:cardCornerRadius="12dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F1F5F9">
+                app:cardBackgroundColor="@color/surface_variant"
+                app:strokeWidth="0dp">
                 <ImageView
                     android:id="@+id/iv_component_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerInside"
-                    android:padding="8dp"
+                    android:padding="12dp"
                     android:contentDescription="Component Image" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -50,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="Component Name"
                     android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/text_primary"/>
 
                 <TextView
@@ -62,72 +60,83 @@
                     android:textColor="@color/text_secondary"
                     android:layout_marginTop="2dp"/>
 
-                <TextView
-                    android:id="@+id/tv_component_price"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₱0.00"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="@color/primary"
-                    android:layout_marginTop="4dp"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="end">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="100dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/success_light">
                     <TextView
-                        android:id="@+id/tv_component_score"
+                        android:id="@+id/tv_component_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="92"
-                        android:textSize="11sp"
+                        android:text="₱0.00"
                         android:textStyle="bold"
-                        android:textColor="@color/success"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"/>
-                </com.google.android.material.card.MaterialCardView>
+                        android:textSize="16sp"
+                        android:textColor="@color/primary"/>
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/primary_light"
+                        app:strokeWidth="0dp">
+                        <TextView
+                            android:id="@+id/tv_component_tier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mid"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:paddingHorizontal="6dp"
+                            android:paddingVertical="2dp"
+                            android:textAllCaps="true"/>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/success_light"
+                app:strokeWidth="0dp">
                 <TextView
-                    android:id="@+id/tv_component_tier"
+                    android:id="@+id/tv_component_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mid-range"
-                    android:textSize="11sp"
+                    android:text="92"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_hint"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
+                    android:textColor="@color/success"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"/>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_component_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Brief description goes here..."
+            android:text="Description goes here..."
             android:textSize="13sp"
             android:textColor="@color/text_secondary"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:lineSpacingExtra="4dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_select_component"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Select"
-            app:cornerRadius="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="52dp"
+            android:text="Choose Component"
+            android:layout_marginTop="20dp"
             app:elevation="0dp"/>
 
     </LinearLayout>

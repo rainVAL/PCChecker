@@ -37,6 +37,7 @@ public class IntroActivity extends AppCompatActivity {
         btnSkip = findViewById(R.id.btn_skip);
 
         List<IntroPage> pages = new ArrayList<>();
+        pages.add(new IntroPage("PC Checker", "Your ultimate companion for building and optimizing your next computer.", R.drawable.ic_logo));
         pages.add(new IntroPage(getString(R.string.intro_title_1), getString(R.string.intro_desc_1), R.drawable.ic_intro_tech));
         pages.add(new IntroPage(getString(R.string.intro_title_2), getString(R.string.intro_desc_2), R.drawable.ic_intro_build));
         pages.add(new IntroPage(getString(R.string.intro_title_3), getString(R.string.intro_desc_3), R.drawable.ic_intro_check));
