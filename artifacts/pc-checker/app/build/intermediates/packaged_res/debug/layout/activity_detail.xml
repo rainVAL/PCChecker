@@ -20,14 +20,15 @@
             app:expandedTitleGravity="bottom"
             app:expandedTitleMarginStart="24dp"
             app:expandedTitleMarginBottom="24dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline5">
+            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/iv_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:padding="64dp"
+                android:padding="48dp"
                 app:layout_collapseMode="parallax"
                 android:contentDescription="Component Image" />
 
@@ -215,8 +216,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="48dp"
-                android:layout_marginBottom="32dp"
                 app:elevation="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_find_shops"
+                style="@style/AppButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="@string/btn_find_shops"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                app:icon="@android:drawable/ic_menu_mylocation"
+                app:iconPadding="12dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

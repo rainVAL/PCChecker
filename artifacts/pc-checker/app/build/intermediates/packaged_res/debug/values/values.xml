@@ -24,6 +24,8 @@
     <string name="app_name">PC Checker</string>
     <string name="browse_search_hint">Search brands or models…</string>
     <string name="browse_title">Browse Parts</string>
+    <string name="btn_find_all_shops">Find Parts in Nearby Stores</string>
+    <string name="btn_find_shops">Find in Nearby Stores</string>
     <string name="detail_about_header">About the product</string>
     <string name="detail_add_btn">Add to Build</string>
     <string name="detail_pairing_header">Expert Pairing Advice</string>
@@ -49,6 +51,7 @@
     <string name="main_sync_label">Sync: %1$d%%</string>
     <string name="main_title">Build Your PC</string>
     <string name="main_total_label">Current Total</string>
+    <string name="map_title">Nearby Computer Shops</string>
     <string name="prebuilt_select_btn">Select This PC</string>
     <string name="prebuilt_title">Pre-built PCs</string>
     <string name="results_compatible">Build is Compatible!</string>
@@ -56,6 +59,7 @@
     <string name="results_sync_balanced">Moderately Balanced (%1$d%%)</string>
     <string name="results_sync_optimized">Highly Optimized Build (%1$d%%)</string>
     <string name="results_tips_header">Optimization Tips</string>
+    <string name="saved_build_count">%1$d components installed</string>
     <style name="AppButton" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">16dp</item>
         <item name="textAllCaps">false</item>

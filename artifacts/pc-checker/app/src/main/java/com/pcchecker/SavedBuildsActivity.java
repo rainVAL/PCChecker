@@ -67,7 +67,7 @@ public class SavedBuildsActivity extends AppCompatActivity {
             holder.tvName.setText(name);
             
             List<PCComponent> components = BuildStorage.loadBuild(SavedBuildsActivity.this, name);
-            holder.tvInfo.setText(components.size() + " components installed");
+            holder.tvInfo.setText(getString(R.string.saved_build_count, components.size()));
 
             holder.btnEdit.setOnClickListener(v -> {
                 BuildManager manager = BuildManager.getInstance();

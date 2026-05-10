@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +12,10 @@
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.PCChecker">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCBSvzJwKVeyIjIiICkJBBSIJ0j7hQo0N8" />
 
         <activity
             android:name=".MainActivity"
@@ -50,6 +56,11 @@
             android:name=".SavedBuildsActivity"
             android:exported="false"
             android:label="Saved Builds" />
+
+        <activity
+            android:name=".StoreMapActivity"
+            android:exported="false"
+            android:label="Nearby Shops" />
 
     </application>
 

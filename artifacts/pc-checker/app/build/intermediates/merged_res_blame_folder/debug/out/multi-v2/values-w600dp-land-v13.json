@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.pcchecker.app-mergeDebugResources-31:/values-w600dp-land-v13/values-w600dp-land-v13.xml",
+            "outputFile": "com.pcchecker.app-mergeDebugResources-34:/values-w600dp-land-v13/values-w600dp-land-v13.xml",
             "map": [
                 {
                     "source": "C:\\Users\\pc\\.gradle\\caches\\transforms-3\\6fe221ef3627acc9045c8968b4817037\\transformed\\material-1.11.0\\res\\values-w600dp-land-v13\\values-w600dp-land-v13.xml",

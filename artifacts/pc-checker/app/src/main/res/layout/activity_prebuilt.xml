@@ -13,7 +13,8 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_prebuilt"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@android:drawable/ic_menu_revert">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

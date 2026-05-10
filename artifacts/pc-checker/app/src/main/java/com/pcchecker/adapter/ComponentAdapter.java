@@ -84,8 +84,8 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
 
             Glide.with(itemView.getContext())
                     .load(c.getImageUrl())
-                    .placeholder(android.R.drawable.ic_menu_gallery)
-                    .error(android.R.drawable.ic_menu_report_image)
+                    .placeholder(getPlaceholder(c.getCategory()))
+                    .error(getPlaceholder(c.getCategory()))
                     .into(ivThumb);
 
             boolean isSelected = c.getId().equals(selectedId);
@@ -99,6 +99,14 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentAdapter.View
                 intent.putExtra("component", c);
                 v.getContext().startActivity(intent);
             });
+        }
+
+        private int getPlaceholder(PCComponent.Category category) {
+            switch (category) {
+                case CPU: return R.drawable.ic_component_cpu;
+                case GPU: return R.drawable.ic_component_gpu;
+                default: return R.drawable.ic_logo;
+            }
         }
 
         private String tierLabel(PCComponent.PriceTier tier) {

@@ -8,12 +8,14 @@ import java.util.List;
 
 public class PreBuiltDatabase {
 
+    private static final String ASSET_PATH = "file:///android_asset/images/components/";
+
     public static List<PreBuiltPC> getPreBuilts() {
         List<PreBuiltPC> list = new ArrayList<>();
         List<PCComponent> all = ComponentDatabase.getAll();
 
         // 1. Budget Starter
-        PreBuiltPC budget = new PreBuiltPC("Budget Starter", "A solid entry-level build for home office and light 1080p gaming.", PCComponent.PriceTier.BUDGET, "https://example.com/budget_pc.jpg");
+        PreBuiltPC budget = new PreBuiltPC("Budget Starter", "A solid entry-level build for home office and light 1080p gaming.", PCComponent.PriceTier.BUDGET, ASSET_PATH + "budget.jpg");
         addById(budget, all, "cpu-11"); // Ryzen 5 5500
         addById(budget, all, "gpu-12"); // RX 6600
         addById(budget, all, "ram-6");  // 8GB DDR4
@@ -24,7 +26,7 @@ public class PreBuiltDatabase {
         list.add(budget);
 
         // 2. Mid-Range Beast
-        PreBuiltPC mid = new PreBuiltPC("Mid-Range Beast", "Perfectly balanced for high-refresh 1440p gaming.", PCComponent.PriceTier.MID, "https://example.com/mid_pc.jpg");
+        PreBuiltPC mid = new PreBuiltPC("Mid-Range Beast", "Perfectly balanced for high-refresh 1440p gaming.", PCComponent.PriceTier.MID, ASSET_PATH + "midrange..jpg");
         addById(mid, all, "cpu-3");  // i5-14600K
         addById(mid, all, "gpu-5");  // RTX 4060 Ti
         addById(mid, all, "ram-5");  // 16GB DDR4
@@ -35,7 +37,7 @@ public class PreBuiltDatabase {
         list.add(mid);
 
         // 3. Ultimate Enthusiast
-        PreBuiltPC high = new PreBuiltPC("Ultimate Enthusiast", "No compromises. Top-of-the-line performance for 4K gaming and creation.", PCComponent.PriceTier.HIGH_END, "https://example.com/high_pc.jpg");
+        PreBuiltPC high = new PreBuiltPC("Ultimate Enthusiast", "No compromises. Top-of-the-line performance for 4K gaming and creation.", PCComponent.PriceTier.HIGH_END, ASSET_PATH + "ultimate.jpg");
         addById(high, all, "cpu-1");  // i9-14900K
         addById(high, all, "gpu-1");  // RTX 4090
         addById(high, all, "ram-1");  // 32GB DDR5

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.pcchecker.app-mergeDebugResources-31:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "outputFile": "com.pcchecker.app-mergeDebugResources-34:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
             "map": [
                 {
                     "source": "C:\\Users\\pc\\.gradle\\caches\\transforms-3\\6fe221ef3627acc9045c8968b4817037\\transformed\\material-1.11.0\\res\\values-h320dp-port-v13\\values-h320dp-port-v13.xml",

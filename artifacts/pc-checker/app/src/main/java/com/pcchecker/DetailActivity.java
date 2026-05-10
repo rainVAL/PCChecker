@@ -72,8 +72,8 @@ public class DetailActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(component.getImageUrl())
-                .placeholder(android.R.drawable.ic_menu_gallery)
-                .error(android.R.drawable.ic_menu_report_image)
+                .placeholder(getPlaceholder(component.getCategory()))
+                .error(getPlaceholder(component.getCategory()))
                 .into(ivImage);
 
         btnSelect.setOnClickListener(v -> {
@@ -81,5 +81,17 @@ public class DetailActivity extends AppCompatActivity {
             Toast.makeText(this, component.getName() + " added to build!", Toast.LENGTH_SHORT).show();
             finish();
         });
+
+        findViewById(R.id.btn_find_shops).setOnClickListener(v -> {
+            startActivity(new android.content.Intent(this, StoreMapActivity.class));
+        });
+    }
+
+    private int getPlaceholder(PCComponent.Category category) {
+        switch (category) {
+            case CPU: return R.drawable.ic_component_cpu;
+            case GPU: return R.drawable.ic_component_gpu;
+            default: return R.drawable.ic_logo;
+        }
     }
 }

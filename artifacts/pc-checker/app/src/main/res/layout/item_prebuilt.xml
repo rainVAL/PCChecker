@@ -19,8 +19,9 @@
                 android:id="@+id/iv_pb_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:background="@color/primary_light"
+                android:scaleType="centerInside"
+                android:padding="24dp"
+                android:background="@color/white"
                 android:contentDescription="PC Image" />
 
             <View

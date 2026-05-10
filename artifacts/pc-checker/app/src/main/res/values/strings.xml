@@ -28,6 +28,7 @@
     <string name="main_analyze_btn">Analyze Build</string>
     <string name="main_reset_btn">Reset Configuration</string>
     <string name="main_components_header">System Components</string>
+    <string name="saved_build_count">%1$d components installed</string>
 
     <string name="detail_pairing_header">Expert Pairing Advice</string>
     <string name="detail_about_header">About the product</string>
@@ -36,6 +37,10 @@
 
     <string name="browse_title">Browse Parts</string>
     <string name="browse_search_hint">Search brands or models…</string>
+
+    <string name="btn_find_shops">Find in Nearby Stores</string>
+    <string name="btn_find_all_shops">Find Parts in Nearby Stores</string>
+    <string name="map_title">Nearby Computer Shops</string>
 
     <string name="results_compatible">Build is Compatible!</string>
     <string name="results_errors">%1$d Compatibility Error(s)</string>

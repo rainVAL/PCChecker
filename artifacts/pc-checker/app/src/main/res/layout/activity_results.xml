@@ -8,19 +8,20 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_results"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@android:drawable/ic_menu_revert">
+            app:navigationIcon="@android:drawable/ic_menu_revert"
+            app:navigationIconTint="@color/text_primary">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Build Analysis"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary" />
         </com.google.android.material.appbar.MaterialToolbar>
@@ -35,31 +36,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="40dp">
 
-            <!-- Overall status -->
+            <!-- Overall Status Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardElevation="4dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="28dp"
+                app:cardElevation="12dp"
                 app:strokeWidth="0dp">
                 <LinearLayout
                     android:id="@+id/ll_status_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="32dp"
-                    android:background="@color/primary"
+                    android:padding="36dp"
+                    android:background="@drawable/bg_status_gradient"
                     android:gravity="center">
 
-                    <ImageView
-                        android:id="@+id/iv_status_icon"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@android:drawable/checkbox_on_background"
-                        app:tint="@color/white"
-                        android:layout_marginBottom="16dp"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        app:cardCornerRadius="36dp"
+                        app:cardBackgroundColor="#33FFFFFF"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp"
+                        android:layout_marginBottom="20dp">
+                        <ImageView
+                            android:id="@+id/iv_status_icon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/checkbox_on_background"
+                            app:tint="@color/white"
+                            android:contentDescription="@null" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <TextView
                         android:id="@+id/tv_compat_header"
@@ -67,13 +80,14 @@
                         android:layout_height="wrap_content"
                         android:text="System Compatible"
                         android:textColor="@color/white"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:letterSpacing="-0.01"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Performance Dashboard -->
+            <!-- Metrics Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,92 +95,110 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="4dp"/>
 
+            <!-- Performance Dashboard -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="32dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Balance Score"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="8dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balance Score"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:letterSpacing="0.05"/>
+
+                        <TextView
+                            android:id="@+id/tv_balance_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Highly Optimized"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"/>
+                    </RelativeLayout>
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/pb_balance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         app:indicatorColor="@color/primary"
                         app:trackColor="@color/primary_light"
                         app:trackCornerRadius="4dp"
                         app:trackThickness="10dp"
                         android:progress="85"/>
 
-                    <TextView
-                        android:id="@+id/tv_balance_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Highly Optimized Build"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/primary"
-                        android:layout_marginTop="8dp"/>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/border"
-                        android:layout_marginVertical="20dp"/>
+                        android:background="@color/divider"
+                        android:layout_marginVertical="24dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bottleneck Risk"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="8dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bottleneck Risk"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:letterSpacing="0.05"/>
+
+                        <TextView
+                            android:id="@+id/tv_bottleneck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Minimal Risk"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/warning"/>
+                    </RelativeLayout>
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
                         android:id="@+id/pb_bottleneck"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         app:indicatorColor="@color/warning"
                         app:trackColor="@color/warning_light"
                         app:trackCornerRadius="4dp"
                         app:trackThickness="10dp"
                         android:progress="15"/>
-
-                    <TextView
-                        android:id="@+id/tv_bottleneck"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Low Risk"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/warning"
-                        android:layout_marginTop="8dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Issues Section -->
+            <!-- Detailed Findings -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detailed Findings"
+                android:text="System Diagnostics"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/text_primary"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="4dp"/>
 
             <LinearLayout
                 android:id="@+id/ll_errors"
@@ -185,20 +217,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginTop="8dp"/>
 
+            <!-- Action Buttons -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_build"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Save This Build"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
+                android:layout_height="64dp"
+                android:text="Save to Library"
+                android:layout_marginTop="24dp"
                 app:icon="@android:drawable/ic_menu_save"
                 app:iconPadding="12dp"
-                app:backgroundTint="@color/accent"/>
+                app:backgroundTint="@color/accent"
+                app:elevation="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_find_all_shops"
+                style="@style/AppButton.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Locate Components Nearby"
+                android:layout_marginTop="16dp"
+                app:icon="@android:drawable/ic_menu_mylocation"
+                app:iconPadding="12dp"
+                app:strokeColor="@color/primary"
+                android:textColor="@color/primary"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

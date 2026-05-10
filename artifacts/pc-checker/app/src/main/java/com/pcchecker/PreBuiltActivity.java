@@ -28,6 +28,14 @@ public class PreBuiltActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prebuilt);
 
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_prebuilt);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         RecyclerView recyclerView = findViewById(R.id.recycler_prebuilt);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new PreBuiltAdapter(PreBuiltDatabase.getPreBuilts()));

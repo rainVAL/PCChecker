@@ -24,14 +24,15 @@
                 android:layout_height="100dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/surface_variant"
-                app:strokeWidth="0dp">
+                app:cardBackgroundColor="@color/white"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/border">
                 <ImageView
                     android:id="@+id/iv_component_thumb"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerInside"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:contentDescription="Component Image" />
             </com.google.android.material.card.MaterialCardView>
 

@@ -59,6 +59,10 @@ public class ResultsActivity extends AppCompatActivity {
 
         btnSaveBuild.setOnClickListener(v -> showSaveDialog());
 
+        findViewById(R.id.btn_find_all_shops).setOnClickListener(v -> {
+            startActivity(new android.content.Intent(this, StoreMapActivity.class));
+        });
+
         loadResults();
     }
 
@@ -88,7 +92,7 @@ public class ResultsActivity extends AppCompatActivity {
         // Header
         if (result.isCompatible()) {
             tvCompatHeader.setText(R.string.results_compatible);
-            llStatusHeader.setBackgroundColor(getResources().getColor(R.color.success, getTheme()));
+            llStatusHeader.setBackgroundResource(R.drawable.bg_status_gradient);
             ivStatusIcon.setImageResource(android.R.drawable.checkbox_on_background);
         } else {
             tvCompatHeader.setText(getString(R.string.results_errors, result.getErrors().size()));
@@ -98,75 +102,79 @@ public class ResultsActivity extends AppCompatActivity {
 
         // Balance
         int balance = result.getPerformanceBalance();
-        tvBalanceLabel.setText(getString(balance >= 80 ? R.string.results_sync_optimized : R.string.results_sync_balanced, balance));
+        tvBalanceLabel.setText(balance >= 80 ? "Highly Optimized" : "Balanced");
         pbBalance.setProgress(balance);
 
         // Errors
         llErrors.removeAllViews();
         for (String err : result.getErrors()) {
-            addIssueLabel(llErrors, err, getResources().getColor(R.color.error, getTheme()), 
-                    getResources().getColor(R.color.error_light, getTheme()));
+            addIssueCard(llErrors, err, getResources().getColor(R.color.error, getTheme()));
         }
 
         // Warnings
         llWarnings.removeAllViews();
         for (String warn : result.getWarnings()) {
-            addIssueLabel(llWarnings, warn, getResources().getColor(R.color.warning, getTheme()), 
-                    getResources().getColor(R.color.warning_light, getTheme()));
+            addIssueCard(llWarnings, warn, getResources().getColor(R.color.warning, getTheme()));
         }
 
         // Bottleneck
         if (bottleneck.severity == 0) {
-            tvBottleneck.setText("Perfectly balanced CPU & GPU");
-            pbBottleneck.setProgress(0);
+            tvBottleneck.setText("Perfectly Balanced");
+            pbBottleneck.setProgress(5); // Show tiny progress for visibility
         } else {
-            tvBottleneck.setText(bottleneck.component + " Bottleneck (" + bottleneck.severity + "% severity)");
+            tvBottleneck.setText(bottleneck.severity > 15 ? "High Risk" : "Low Risk");
             pbBottleneck.setProgress(bottleneck.severity);
         }
 
         // Suggestions
         llSuggestions.removeAllViews();
         if (!suggestions.isEmpty()) {
-            TextView title = new TextView(this);
-            title.setText(R.string.results_tips_header);
-            title.setTextSize(18);
-            title.setTypeface(null, android.graphics.Typeface.BOLD);
-            title.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
-            title.setPadding(0, 24, 0, 16);
-            llSuggestions.addView(title);
-
+            addSectionTitle(llSuggestions, "Optimization Tips");
             for (String s : suggestions) {
-                addSuggestionLabel(llSuggestions, s);
+                addIssueCard(llSuggestions, s, getResources().getColor(R.color.primary, getTheme()));
             }
         }
     }
 
-    private void addIssueLabel(LinearLayout parent, String text, int textColor, int bgColor) {
+    private void addSectionTitle(LinearLayout parent, String title) {
         TextView tv = new TextView(this);
-        tv.setText(text);
-        tv.setTextColor(textColor);
-        tv.setTextSize(14);
-        tv.setPadding(32, 32, 32, 32);
-        
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 16);
-        tv.setLayoutParams(params);
-        
-        android.graphics.drawable.GradientDrawable gd = new android.graphics.drawable.GradientDrawable();
-        gd.setColor(bgColor);
-        gd.setCornerRadius(16);
-        tv.setBackground(gd);
-        
+        tv.setText(title);
+        tv.setTextSize(18);
+        tv.setTypeface(null, android.graphics.Typeface.BOLD);
+        tv.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
+        tv.setPadding(16, 32, 0, 16);
         parent.addView(tv);
     }
 
-    private void addSuggestionLabel(LinearLayout parent, String text) {
+    private void addIssueCard(LinearLayout parent, String text, int accentColor) {
+        com.google.android.material.card.MaterialCardView card = new com.google.android.material.card.MaterialCardView(this);
+        card.setRadius(40);
+        card.setCardElevation(0);
+        card.setStrokeWidth(0);
+        card.setUseCompatPadding(true);
+        
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        
+        View accent = new View(this);
+        accent.setLayoutParams(new LinearLayout.LayoutParams(12, LinearLayout.LayoutParams.MATCH_PARENT));
+        accent.setBackgroundColor(accentColor);
+        layout.addView(accent);
+        
         TextView tv = new TextView(this);
-        tv.setText("• " + text);
-        tv.setTextColor(getResources().getColor(R.color.text_secondary, getTheme()));
+        tv.setText(text);
+        tv.setTextColor(getResources().getColor(R.color.text_primary, getTheme()));
         tv.setTextSize(14);
-        tv.setPadding(0, 8, 0, 12);
-        parent.addView(tv);
+        tv.setPadding(32, 32, 32, 32);
+        layout.addView(tv);
+        
+        card.addView(layout);
+        
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 12);
+        card.setLayoutParams(params);
+        
+        parent.addView(card);
     }
 }

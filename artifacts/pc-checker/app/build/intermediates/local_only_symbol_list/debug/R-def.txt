@@ -22,8 +22,11 @@ color warning
 color warning_light
 color white
 drawable bg_bottom_sheet
+drawable bg_status_gradient
 drawable circle_bg
 drawable gradient_overlay
+drawable ic_component_cpu
+drawable ic_component_gpu
 drawable ic_intro_build
 drawable ic_intro_check
 drawable ic_intro_tech
@@ -38,6 +41,8 @@ id btn_clear_build
 id btn_delete_saved
 id btn_detail_select
 id btn_edit_saved
+id btn_find_all_shops
+id btn_find_shops
 id btn_next
 id btn_prebuilt_list
 id btn_save_build
@@ -63,6 +68,7 @@ id ll_errors
 id ll_status_header
 id ll_suggestions
 id ll_warnings
+id map
 id pb_balance
 id pb_bottleneck
 id progress_health
@@ -80,6 +86,7 @@ id spinner_sort
 id spinner_tier
 id tab_layout
 id toolbar
+id toolbar_map
 id toolbar_prebuilt
 id toolbar_results
 id toolbar_saved
@@ -122,6 +129,7 @@ layout activity_main
 layout activity_prebuilt
 layout activity_results
 layout activity_saved_builds
+layout activity_store_map
 layout item_component
 layout item_intro_page
 layout item_prebuilt
@@ -130,6 +138,8 @@ layout slot_item
 string app_name
 string browse_search_hint
 string browse_title
+string btn_find_all_shops
+string btn_find_shops
 string detail_about_header
 string detail_add_btn
 string detail_pairing_header
@@ -155,6 +165,7 @@ string main_subtitle
 string main_sync_label
 string main_title
 string main_total_label
+string map_title
 string prebuilt_select_btn
 string prebuilt_title
 string results_compatible
@@ -162,6 +173,7 @@ string results_errors
 string results_sync_balanced
 string results_sync_optimized
 string results_tips_header
+string saved_build_count
 style AppButton
 style AppButton.Outlined
 style AppButton.Text
