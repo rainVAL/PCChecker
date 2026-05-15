@@ -1,5 +1,6 @@
 package com.pcchecker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pcchecker.model.PCComponent;
 import com.pcchecker.utils.BuildStorage;
 
@@ -21,6 +23,7 @@ import java.util.List;
 public class SavedBuildsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private TextView tvEmpty;
     private SavedBuildAdapter adapter;
 
     @Override
@@ -37,15 +40,52 @@ public class SavedBuildsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         recyclerView = findViewById(R.id.recycler_saved);
+        tvEmpty = findViewById(R.id.tv_empty_saved);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
+        setupNavigation();
         loadBuilds();
+    }
+
+    private void setupNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_saved);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_builder) {
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (id == R.id.nav_saved) {
+                return true;
+            } else if (id == R.id.nav_shops) {
+                startActivity(new Intent(this, StoreMapActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (id == R.id.nav_about) {
+                startActivity(new Intent(this, AboutActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadBuilds() {
         List<String> names = BuildStorage.getSavedBuildNames(this);
-        adapter = new SavedBuildAdapter(names);
-        recyclerView.setAdapter(adapter);
+        if (names.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter = new SavedBuildAdapter(names);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private class SavedBuildAdapter extends RecyclerView.Adapter<SavedBuildAdapter.ViewHolder> {
@@ -84,6 +124,11 @@ public class SavedBuildsActivity extends AppCompatActivity {
                 buildNames.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, buildNames.size());
+                
+                if (buildNames.isEmpty()) {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
             });
         }
 

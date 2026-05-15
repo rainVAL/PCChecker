@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pcchecker.model.CompatibilityResult;
 import com.pcchecker.model.PCComponent;
 import com.pcchecker.utils.CompatibilityUtils;
@@ -43,7 +44,33 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         setupUseCaseSelector();
         setupSlotButtons();
+        setupNavigation();
         updateUI();
+    }
+
+    private void setupNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_builder);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_builder) {
+                return true;
+            } else if (id == R.id.nav_saved) {
+                startActivity(new Intent(this, SavedBuildsActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_shops) {
+                startActivity(new Intent(this, StoreMapActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_about) {
+                startActivity(new Intent(this, AboutActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
