@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pcchecker.db.SavedBuild;
 import com.pcchecker.model.PCComponent;
+import com.pcchecker.data.ComponentDatabase;
 import com.pcchecker.utils.BuildStorage;
 
 import java.util.List;
@@ -44,6 +46,11 @@ public class SavedBuildsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         setupNavigation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadBuilds();
     }
 
@@ -76,23 +83,24 @@ public class SavedBuildsActivity extends AppCompatActivity {
     }
 
     private void loadBuilds() {
-        List<String> names = BuildStorage.getSavedBuildNames(this);
-        if (names.isEmpty()) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            tvEmpty.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            adapter = new SavedBuildAdapter(names);
-            recyclerView.setAdapter(adapter);
-        }
+        BuildStorage.getSavedBuilds(this, builds -> {
+            if (builds.isEmpty()) {
+                tvEmpty.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                tvEmpty.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                adapter = new SavedBuildAdapter(builds);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
 
     private class SavedBuildAdapter extends RecyclerView.Adapter<SavedBuildAdapter.ViewHolder> {
-        private final List<String> buildNames;
+        private final List<SavedBuild> savedBuilds;
 
-        SavedBuildAdapter(List<String> buildNames) {
-            this.buildNames = buildNames;
+        SavedBuildAdapter(List<SavedBuild> savedBuilds) {
+            this.savedBuilds = savedBuilds;
         }
 
         @NonNull
@@ -103,29 +111,39 @@ public class SavedBuildsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            String name = buildNames.get(position);
-            holder.tvName.setText(name);
+            SavedBuild build = savedBuilds.get(position);
+            holder.tvName.setText(build.name);
             
-            List<PCComponent> components = BuildStorage.loadBuild(SavedBuildsActivity.this, name);
-            holder.tvInfo.setText(getString(R.string.saved_build_count, components.size()));
+            int count = build.componentIds != null ? build.componentIds.size() : 0;
+            holder.tvInfo.setText(getString(R.string.saved_build_count, count));
 
             holder.btnEdit.setOnClickListener(v -> {
                 BuildManager manager = BuildManager.getInstance();
                 manager.clearBuild();
-                for (PCComponent c : components) {
-                    manager.setComponent(c);
+                
+                List<PCComponent> all = ComponentDatabase.getAll();
+                if (build.componentIds != null) {
+                    for (String compId : build.componentIds.values()) {
+                        for (PCComponent c : all) {
+                            if (c.getId().equals(compId)) {
+                                manager.setComponent(c);
+                                break;
+                            }
+                        }
+                    }
                 }
+                
                 Toast.makeText(SavedBuildsActivity.this, "Build loaded for editing!", Toast.LENGTH_SHORT).show();
                 finish();
             });
 
             holder.btnDelete.setOnClickListener(v -> {
-                BuildStorage.deleteBuild(SavedBuildsActivity.this, name);
-                buildNames.remove(position);
+                BuildStorage.deleteBuild(SavedBuildsActivity.this, build);
+                savedBuilds.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, buildNames.size());
+                notifyItemRangeChanged(position, savedBuilds.size());
                 
-                if (buildNames.isEmpty()) {
+                if (savedBuilds.isEmpty()) {
                     tvEmpty.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
@@ -134,7 +152,7 @@ public class SavedBuildsActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return buildNames.size();
+            return savedBuilds.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

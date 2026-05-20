@@ -1,71 +1,54 @@
 package com.pcchecker.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.pcchecker.data.ComponentDatabase;
+import com.pcchecker.db.AppDatabase;
+import com.pcchecker.db.SavedBuild;
 import com.pcchecker.model.PCComponent;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class BuildStorage {
-    private static final String PREF_NAME = "saved_builds";
-    private static final String KEY_BUILD_LIST = "build_list";
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    public interface BuildCallback {
+        void onLoaded(List<SavedBuild> builds);
+    }
 
     public static void saveBuild(Context context, String name, Map<PCComponent.Category, PCComponent> build) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        Set<String> buildList = prefs.getStringSet(KEY_BUILD_LIST, new HashSet<>());
-        Set<String> newBuildList = new HashSet<>(buildList);
-        newBuildList.add(name);
-
-        StringBuilder sb = new StringBuilder();
-        for (PCComponent component : build.values()) {
-            sb.append(component.getId()).append(",");
-        }
-        
-        prefs.edit()
-            .putStringSet(KEY_BUILD_LIST, newBuildList)
-            .putString("build_" + name, sb.toString())
-            .apply();
-    }
-
-    public static List<String> getSavedBuildNames(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return new ArrayList<>(prefs.getStringSet(KEY_BUILD_LIST, new HashSet<>()));
-    }
-
-    public static List<PCComponent> loadBuild(Context context, String name) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        String data = prefs.getString("build_" + name, "");
-        List<PCComponent> components = new ArrayList<>();
-        if (data.isEmpty()) return components;
-
-        String[] ids = data.split(",");
-        List<PCComponent> all = ComponentDatabase.getAll();
-        for (String id : ids) {
-            for (PCComponent c : all) {
-                if (c.getId().equals(id)) {
-                    components.add(c);
-                    break;
-                }
+        executor.execute(() -> {
+            SavedBuild entity = new SavedBuild();
+            entity.name = name;
+            entity.dateCreated = System.currentTimeMillis();
+            
+            Map<PCComponent.Category, String> ids = new HashMap<>();
+            double total = 0;
+            for (Map.Entry<PCComponent.Category, PCComponent> entry : build.entrySet()) {
+                ids.put(entry.getKey(), entry.getValue().getId());
+                total += entry.getValue().getPricePhp();
             }
-        }
-        return components;
+            entity.componentIds = ids;
+            entity.totalPrice = total;
+            
+            AppDatabase.getInstance(context).savedBuildDao().insert(entity);
+        });
     }
 
-    public static void deleteBuild(Context context, String name) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        Set<String> buildList = prefs.getStringSet(KEY_BUILD_LIST, new HashSet<>());
-        Set<String> newBuildList = new HashSet<>(buildList);
-        newBuildList.remove(name);
-        
-        prefs.edit()
-            .putStringSet(KEY_BUILD_LIST, newBuildList)
-            .remove("build_" + name)
-            .apply();
+    public static void getSavedBuilds(Context context, BuildCallback callback) {
+        executor.execute(() -> {
+            List<SavedBuild> builds = AppDatabase.getInstance(context).savedBuildDao().getAll();
+            if (callback != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onLoaded(builds));
+            }
+        });
+    }
+
+    public static void deleteBuild(Context context, SavedBuild build) {
+        executor.execute(() -> {
+            AppDatabase.getInstance(context).savedBuildDao().delete(build);
+        });
     }
 }

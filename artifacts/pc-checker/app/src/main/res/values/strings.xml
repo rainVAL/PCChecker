@@ -48,4 +48,5 @@
     <string name="results_sync_balanced">Moderately Balanced (%1$d%%)</string>
     <string name="results_tips_header">Optimization Tips</string>
     <string name="detail_score_label">Performance Score: %1$d</string>
+    <string name="saved_empty_message">No saved builds yet.</string>
 </resources>
